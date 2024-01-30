@@ -2,6 +2,8 @@ package com.wcs._2dolist.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "task_list")
 public class TaskList {
@@ -17,6 +19,9 @@ public class TaskList {
     @ManyToOne
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
+
+    @OneToMany(mappedBy = "taskList")
+    private Set<Task> tasks;
 
     public TaskList() {
     }
@@ -67,6 +72,14 @@ public class TaskList {
 
     public void setWorkspace(Workspace workspace) {
         this.workspace = workspace;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 }
 

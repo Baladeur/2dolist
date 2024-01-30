@@ -57,6 +57,9 @@ public class User {
     )
     private Set<Workspace> workspaces;
 
+    @OneToMany(mappedBy = "owner")
+    private Set<Task> tasks;
+
     public User() {
     }
 
@@ -218,5 +221,13 @@ public class User {
 
     public void setWorkspaces(Set<Workspace> workspaces) {
         this.workspaces = workspaces;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 }
