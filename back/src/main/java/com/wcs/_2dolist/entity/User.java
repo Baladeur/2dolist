@@ -5,6 +5,7 @@ import com.wcs._2dolist.enums.AccountStatus;
 import com.wcs._2dolist.enums.UserRole;
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -28,7 +29,6 @@ public class User {
 
     private String address;
 
-    //  deleted, active, blocked
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus = AccountStatus.ACTIVE;
@@ -48,6 +48,14 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PrivacySetting privacySetting;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_workspace",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "workspace_id")
+    )
+    private Set<Workspace> workspaces;
 
     public User() {
     }
@@ -202,5 +210,13 @@ public class User {
 
     public void setPrivacySetting(PrivacySetting privacySetting) {
         this.privacySetting = privacySetting;
+    }
+
+    public Set<Workspace> getWorkspaces() {
+        return workspaces;
+    }
+
+    public void setWorkspaces(Set<Workspace> workspaces) {
+        this.workspaces = workspaces;
     }
 }
