@@ -22,6 +22,9 @@ public class Workspace {
     @ManyToMany(mappedBy = "workspaces")
     private Set<User> users;
 
+    @OneToMany(mappedBy = "workspace")
+    private Set<TaskList> taskLists;
+
     public Workspace() {
     }
 
@@ -97,6 +100,14 @@ public class Workspace {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<TaskList> getTaskLists() {
+        return taskLists;
+    }
+
+    public void setTaskLists(Set<TaskList> taskLists) {
+        this.taskLists = taskLists;
     }
 }
 
