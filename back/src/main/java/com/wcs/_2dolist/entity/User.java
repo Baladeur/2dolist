@@ -63,6 +63,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications;
+
     public User() {
     }
 
@@ -240,5 +243,13 @@ public class User {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
