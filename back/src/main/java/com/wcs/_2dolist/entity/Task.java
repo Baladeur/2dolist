@@ -2,6 +2,7 @@ package com.wcs._2dolist.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "task")
@@ -35,6 +36,9 @@ public class Task {
     private Date end;
 
     private Boolean closed;
+
+    @OneToMany(mappedBy = "task")
+    private Set<Comment> comments;
 
     public Task() {
     }
@@ -162,5 +166,12 @@ public class Task {
     public void setClosed(Boolean closed) {
         this.closed = closed;
     }
-}
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+}

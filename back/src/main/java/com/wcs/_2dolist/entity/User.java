@@ -60,6 +60,9 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private Set<Task> tasks;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
+
     public User() {
     }
 
@@ -229,5 +232,13 @@ public class User {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }
