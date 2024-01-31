@@ -25,5 +25,54 @@ public class Notification {
     @Column(name = "is_read")
     private Boolean read;
 
-    // Constructors, getters, setters
+    public Notification() {
+    }
+
+    public Notification(int id, User user, String text, Date dateCreation, Boolean read) {
+        this.id = id;
+        this.user = user;
+        this.text = text;
+        this.dateCreation = dateCreation;
+        this.read = read;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
+    }
 }
