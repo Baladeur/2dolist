@@ -31,6 +31,17 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        // TODO: check if email exists and account is deleted
+        // email not exists in DB ->  create new user
+        // email exists in DB && UserStatus.DELETED ->  overwrite old user by new user
+        // email exists in DB && ( ! UserStatus.DELETED)  ->  throw exception
+
+//        if (
+//                userRepository.existsByEmail(user.getEmail()) &&
+//                userRepository.findByEmail(user.getEmail()).getAccountStatus() != UserStatus.DELETED) {
+//            throw new IllegalArgumentException("A user with this email already exists");
+//        }
+
         return userRepository.save(user);
     }
 
