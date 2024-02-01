@@ -157,11 +157,11 @@ public class User {
         this.address = address;
     }
 
-    public UserStatus getAccountStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setAccountStatus(UserStatus status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
