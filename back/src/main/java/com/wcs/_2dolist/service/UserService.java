@@ -31,18 +31,21 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        // TODO: check if email exists and account is deleted
-        // email not exists in DB ->  create new user
-        // email exists in DB && UserStatus.DELETED ->  overwrite old user by new user
-        // email exists in DB && ( ! UserStatus.DELETED)  ->  throw exception
+        String email = user.getEmail();
 
-//        if (
-//                userRepository.existsByEmail(user.getEmail()) &&
-//                userRepository.findByEmail(user.getEmail()).getAccountStatus() != UserStatus.DELETED) {
-//            throw new IllegalArgumentException("A user with this email already exists");
-//        }
+        User existingUser = userRepository.findByEmail(email);
 
-        return userRepository.save(user);
+        if (existingUser == null) {
+            return userRepository.save(user);
+        } else {
+            if (existingUser.getAccountStatus() == UserStatus.DELETED) {
+                // Email exists in DB and UserStatus is DELETED -> overwrite old user data by new user data
+                user.setId(existingUser.getId());
+                return userRepository.save(user);
+            } else {
+                throw new IllegalStateException("A user with this email already exists and is active or blocked");
+            }
+        }
     }
 
     public User updateUser(Long id, User user) {
