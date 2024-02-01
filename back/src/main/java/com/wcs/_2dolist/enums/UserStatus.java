@@ -1,6 +1,6 @@
 package com.wcs._2dolist.enums;
 
-public enum AccountStatus {
+public enum UserStatus {
     DELETED,
     ACTIVE,
     BLOCKED
