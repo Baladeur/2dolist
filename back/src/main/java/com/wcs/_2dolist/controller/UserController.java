@@ -1,7 +1,6 @@
 package com.wcs._2dolist.controller;
 
 import com.wcs._2dolist.dto.UserDTO;
-import com.wcs._2dolist.entity.User;
 import com.wcs._2dolist.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
