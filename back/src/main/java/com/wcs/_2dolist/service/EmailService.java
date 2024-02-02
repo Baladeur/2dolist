@@ -1,10 +1,8 @@
 package com.wcs._2dolist.service;
 
 import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import com.sendgrid.*;
 
@@ -20,17 +18,8 @@ public class EmailService {
     @Value("${domain.name}")
     private String domainName;
 
-    public EmailService(JavaMailSender javaMailSender) {
-    }
 
     public void sendRegistrationEmail(String email, String registrationHash) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(email);
-//        message.setSubject("Complete Your Registration");
-//        message.setText("Please click on the following link to complete your registration: " + registrationLink);
-//        javaMailSender.send(message);
-
-//        Email from = new Email("arseniit@gmail.com");
         Email from = new Email(emailFrom);
         String subject = "Activate Your Account: Finish Your Registration Process";
         Email to = new Email(email);
@@ -43,6 +32,28 @@ public class EmailService {
 
         SendGrid sg = new SendGrid(apiKey);
         Request request = new Request();
+
+        TrackingSettings trackingSettings = new TrackingSettings();
+
+        ClickTrackingSetting clickTrackingSetting = new ClickTrackingSetting();
+        clickTrackingSetting.setEnable(false);
+        clickTrackingSetting.setEnableText(false);
+        trackingSettings.setClickTrackingSetting(clickTrackingSetting);
+
+        OpenTrackingSetting openTrackingSetting = new OpenTrackingSetting();
+        openTrackingSetting.setEnable(false);
+        trackingSettings.setOpenTrackingSetting(openTrackingSetting);
+
+        SubscriptionTrackingSetting subscriptionTrackingSetting = new SubscriptionTrackingSetting();
+        subscriptionTrackingSetting.setEnable(false);
+        trackingSettings.setSubscriptionTrackingSetting(subscriptionTrackingSetting);
+
+        GoogleAnalyticsSetting googleAnalyticsSetting = new GoogleAnalyticsSetting();
+        googleAnalyticsSetting.setEnable(false);
+        trackingSettings.setGoogleAnalyticsSetting(googleAnalyticsSetting);
+
+        mail.setTrackingSettings(trackingSettings);
+
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
