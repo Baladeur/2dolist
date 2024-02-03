@@ -19,7 +19,9 @@ public class EmailService {
     private String domainName;
 
 
-    public void sendRegistrationEmail(String email, String registrationHash) {
+    public void sendRegistrationEmail(String email, String registrationHash, String frontUrl) {
+        // uncomment the following line when frontend is ready
+        // this.domainName = frontUrl;
         Email from = new Email(emailFrom);
         String subject = "Activate Your Account: Finish Your Registration Process";
         Email to = new Email(email);

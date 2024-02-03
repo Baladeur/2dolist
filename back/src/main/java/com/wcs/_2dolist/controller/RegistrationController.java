@@ -17,16 +17,24 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> initiateRegistration(@RequestBody RegistrationRequestDTO registrationRequest) {
-        registrationService.initiateRegistration(registrationRequest);
+    public ResponseEntity<String> initiateRegistration(@RequestBody RegistrationRequestDTO registrationRequest) {
+        try {
+            registrationService.initiateRegistration(registrationRequest);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body("Email address already exists");
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{hash}")
-    public ResponseEntity<String> confirmRegistration(@PathVariable("hash") String hash) {
-        if (hash == null || hash.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid registration hash or registration already completed.");
+    @GetMapping("/verify/{token}")
+    public ResponseEntity<String> checkRegistrationToken(@PathVariable("token") String token) {
+        if (token == null || token.isEmpty()) {
+            return ResponseEntity.badRequest().body("Invalid registration token");
         }
-        return ResponseEntity.ok("Registration completed successfully!");
+        if (registrationService.verifyRegistrationToken(token)) {
+            return ResponseEntity.ok("Registration token is valid and registration can be completed.");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid registration token or registration expired.");
+        }
     }
 }

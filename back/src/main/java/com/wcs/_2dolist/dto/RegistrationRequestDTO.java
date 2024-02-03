@@ -3,12 +3,14 @@ package com.wcs._2dolist.dto;
 public class RegistrationRequestDTO {
 
     private String email;
+    private String frontUrl;
 
     public RegistrationRequestDTO() {
     }
 
-    public RegistrationRequestDTO(String email) {
+    public RegistrationRequestDTO(String email, String frontUrl) {
         this.email = email;
+        this.frontUrl = frontUrl;
     }
 
     public String getEmail() {
@@ -17,5 +19,13 @@ public class RegistrationRequestDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFrontUrl() {
+        return frontUrl;
+    }
+
+    public void setFrontUrl(String frontUrl) {
+        this.frontUrl = frontUrl;
     }
 }

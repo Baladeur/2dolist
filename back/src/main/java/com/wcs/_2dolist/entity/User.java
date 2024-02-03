@@ -29,7 +29,7 @@ public class User {
 
     private String address;
 
-    @Column(length = 10)
+    @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
 
@@ -42,9 +42,9 @@ public class User {
 
     private String passwordHash;
 
-    private String registrationUrlHash;
+    private String registrationToken;
 
-    private Date dateRequestRegistrationUrlHash;
+    private Date dateRequestRegistrationToken;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PrivacySetting privacySetting;
@@ -82,8 +82,8 @@ public class User {
             String lastUpdated,
             UserRole role,
             String passwordHash,
-            String registrationUrlHash,
-            Date dateRequestRegistrationUrlHash
+            String registrationToken,
+            Date dateRequestRegistrationToken
     ) {
         this.id = id;
         this.email = email;
@@ -97,8 +97,8 @@ public class User {
         this.lastUpdated = lastUpdated;
         this.role = role;
         this.passwordHash = passwordHash;
-        this.registrationUrlHash = registrationUrlHash;
-        this.dateRequestRegistrationUrlHash = dateRequestRegistrationUrlHash;
+        this.registrationToken = registrationToken;
+        this.dateRequestRegistrationToken = dateRequestRegistrationToken;
     }
 
     public Long getId() {
@@ -197,20 +197,20 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public String getRegistrationUrlHash() {
-        return registrationUrlHash;
+    public String getRegistrationToken() {
+        return registrationToken;
     }
 
-    public void setRegistrationUrlHash(String registrationUrlHash) {
-        this.registrationUrlHash = registrationUrlHash;
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
     }
 
-    public Date getDateRequestRegistrationUrlHash() {
-        return dateRequestRegistrationUrlHash;
+    public Date getDateRequestRegistrationToken() {
+        return dateRequestRegistrationToken;
     }
 
-    public void setDateRequestRegistrationUrlHash(Date dateRequestRegistrationUrlHash) {
-        this.dateRequestRegistrationUrlHash = dateRequestRegistrationUrlHash;
+    public void setDateRequestRegistrationToken(Date dateRequestRegistrationToken) {
+        this.dateRequestRegistrationToken = dateRequestRegistrationToken;
     }
 
     public PrivacySetting getPrivacySetting() {
