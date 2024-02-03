@@ -24,7 +24,7 @@ public class UserMapper {
             user.setStatus(UserStatus.valueOf(userDTO.getStatus().toUpperCase()));
         }
         user.setEmailVerified(userDTO.isEmailVerified());
-        user.setLastUpdated(userDTO.getLastUpdated());
+        user.setLastUpdatedDate(userDTO.getLastUpdatedDate());
         user.setRole(UserRole.valueOf(userDTO.getRole().toUpperCase()));
         return user;
     }
@@ -40,7 +40,7 @@ public class UserMapper {
         userDTO.setStatus(user.getStatus().name());
 
         userDTO.setEmailVerified(user.isEmailVerified());
-        userDTO.setLastUpdated(user.getLastUpdated());
+        userDTO.setLastUpdatedDate(user.getLastUpdatedDate());
         userDTO.setRole(user.getRole().name());
         return userDTO;
     }

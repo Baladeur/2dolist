@@ -1,5 +1,6 @@
 package com.wcs._2dolist.controller;
 
+import com.wcs._2dolist.dto.RegistrationCompleteDTO;
 import com.wcs._2dolist.dto.RegistrationRequestDTO;
 import com.wcs._2dolist.service.RegistrationService;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,17 @@ public class RegistrationController {
         } else {
             return ResponseEntity.badRequest().body("Invalid registration token or registration expired.");
         }
+    }
+
+    @PostMapping("/complete")
+    public ResponseEntity<String> completeRegistration(@RequestBody RegistrationCompleteDTO registrationCompleteDTO) {
+        try {
+            registrationService.completeRegistration(registrationCompleteDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid registration data");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body("Invalid registration token or registration expired");
+        }
+        return ResponseEntity.ok("Registration completed successfully");
     }
 }

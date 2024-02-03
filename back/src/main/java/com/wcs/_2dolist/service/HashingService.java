@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class HashingService {
 
+    //TODO: change hashing to always unique token
     public String generateUniqueHash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

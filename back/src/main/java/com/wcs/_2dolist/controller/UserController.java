@@ -44,7 +44,7 @@ public class UserController {
     //        "emailVerified": true,
     //        "lastUpdated": "2024-01-29T08:45:00Z",
     //        "role": "ADMIN",
-    //        "passwordHash": "your_password_hash",
+    //        "password": "your_password_hash",
     //        "registrationUrlHash": "your_registration_url_hash",
     //        "dateRequestRegistrationUrlHash": "2024-01-29"
     //}

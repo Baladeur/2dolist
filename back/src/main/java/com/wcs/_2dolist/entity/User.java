@@ -35,12 +35,15 @@ public class User {
 
     private boolean emailVerified = false;
 
-    private String lastUpdated;
+    private Date lastUpdatedDate;
 
     @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
-    private String passwordHash;
+    private String password;
+
+    private Date dateRegistrationCompleted;
 
     private String registrationToken;
 
@@ -79,11 +82,17 @@ public class User {
             String address,
             UserStatus status,
             boolean emailVerified,
-            String lastUpdated,
+            Date lastUpdatedDate,
             UserRole role,
-            String passwordHash,
+            String password,
             String registrationToken,
-            Date dateRequestRegistrationToken
+            Date dateRequestRegistrationToken,
+            PrivacySetting privacySetting,
+            Set<Workspace> workspaces,
+            Set<Task> tasks,
+            Set<Comment> comments,
+            Set<Notification> notifications,
+            Date dateRegistrationCompleted
     ) {
         this.id = id;
         this.email = email;
@@ -94,11 +103,17 @@ public class User {
         this.address = address;
         this.status = status;
         this.emailVerified = emailVerified;
-        this.lastUpdated = lastUpdated;
+        this.lastUpdatedDate = lastUpdatedDate;
         this.role = role;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.registrationToken = registrationToken;
         this.dateRequestRegistrationToken = dateRequestRegistrationToken;
+        this.privacySetting = privacySetting;
+        this.workspaces = workspaces;
+        this.tasks = tasks;
+        this.comments = comments;
+        this.notifications = notifications;
+        this.dateRegistrationCompleted = dateRegistrationCompleted;
     }
 
     public Long getId() {
@@ -173,12 +188,12 @@ public class User {
         this.emailVerified = emailVerified;
     }
 
-    public String getLastUpdated() {
-        return lastUpdated;
+    public Date getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLastUpdatedDate(Date lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public UserRole getRole() {
@@ -189,12 +204,12 @@ public class User {
         this.role = role;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRegistrationToken() {
@@ -251,5 +266,13 @@ public class User {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Date getDateRegistrationCompleted() {
+        return dateRegistrationCompleted;
+    }
+
+    public void setDateRegistrationCompleted(Date dateRegistrationCompleted) {
+        this.dateRegistrationCompleted = dateRegistrationCompleted;
     }
 }
