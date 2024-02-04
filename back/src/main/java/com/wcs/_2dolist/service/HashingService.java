@@ -5,12 +5,17 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 @Service
 public class HashingService {
 
-    //TODO: change hashing to always unique token
-    public String generateUniqueHash(String input) {
+    public String generateRegistrationToken(String input) {
+        String uniqueToken = UUID.randomUUID().toString();
+        String combinedString = input + uniqueToken;
+        return generateHash(combinedString);
+    }
+    private String generateHash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -19,11 +24,6 @@ public class HashingService {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public boolean verifyHash(String input, String hash) {
-        String generatedHash = generateUniqueHash(input);
-        return generatedHash != null && generatedHash.equals(hash);
     }
 
     private String bytesToHex(byte[] hash) {

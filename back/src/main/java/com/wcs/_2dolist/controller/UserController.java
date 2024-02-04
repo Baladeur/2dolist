@@ -45,8 +45,8 @@ public class UserController {
     //        "lastUpdated": "2024-01-29T08:45:00Z",
     //        "role": "ADMIN",
     //        "password": "your_password_hash",
-    //        "registrationUrlHash": "your_registration_url_hash",
-    //        "dateRequestRegistrationUrlHash": "2024-01-29"
+    //        "registrationToken": "your_registration_url_hash",
+    //        "dateRequestRegistrationToken": "2024-01-29"
     //}
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {

@@ -39,7 +39,7 @@ public class RegistrationService {
             throw new IllegalStateException("Email address already exists");
         }
 
-        String registrationHash = hashingService.generateUniqueHash(email);
+        String registrationHash = hashingService.generateRegistrationToken(email);
 
         User user = new User();
         user.setEmail(email);

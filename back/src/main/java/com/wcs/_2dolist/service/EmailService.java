@@ -19,17 +19,20 @@ public class EmailService {
     private String domainName;
 
 
-    public void sendRegistrationEmail(String email, String registrationHash, String frontUrl) {
-        // uncomment the following line when frontend is ready
-        // this.domainName = frontUrl;
+    public void sendRegistrationEmail(String email, String registrationToken, String frontUrl) {
+        String url = this.domainName + "/registration/verify/";
+
+        if(frontUrl != null && !frontUrl.isEmpty()){
+            url = frontUrl;
+        }
         Email from = new Email(emailFrom);
         String subject = "Activate Your Account: Finish Your Registration Process";
         Email to = new Email(email);
         Content content = new Content(
                 "text/plain",
                 "To complete your registration and activate your account, please click the link: " +
-                        domainName +
-                        "/registration/" + registrationHash);
+                        url +
+                        registrationToken);
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid(apiKey);
@@ -65,6 +68,7 @@ public class EmailService {
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
         } catch (IOException ex) {
+            //TODO: make handling of this exception correctly with http response
             try {
                 throw ex;
             } catch (IOException e) {
