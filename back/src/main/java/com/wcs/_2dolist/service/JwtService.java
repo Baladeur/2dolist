@@ -2,8 +2,7 @@ package com.wcs._2dolist.service;
 
 import com.wcs._2dolist.entity.User;
 import com.wcs._2dolist.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.util.Strings;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -37,9 +37,9 @@ public class JwtService {
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         System.out.println(userEmail);
         return Jwts.builder()
-                .subject(userEmail)
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .issuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(userEmail)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(key)
                 .compact();
     }
@@ -71,48 +71,41 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public String retrieveToken(HttpServletRequest request){
-
+    public String retrieveToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
 
-        if(Strings.isBlank(authorizationHeader)){
-            throw new AuthorizationServiceException("Token not found !");
+        if (Strings.isBlank(authorizationHeader)) {
+            throw new AuthorizationServiceException("Token not found!");
         }
 
-        if(!authorizationHeader.startsWith("Bearer")){
-            throw new AuthorizationServiceException("Invalid auth !");
+        if (!authorizationHeader.startsWith("Bearer")) {
+            throw new AuthorizationServiceException("Invalid auth!");
         }
 
         return authorizationHeader.substring(7);
-
     }
 
-    public Optional<User> validateAndReturnUsername(String token) {
-//        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-//
-//        Jws<Claims> claimsJws;
-//        try {
-        //TODO: fix this. parserBuilder is not available in the current version of JJWT
-//            claimsJws = Jwts.parserBuilder()
-//                    .setSigningKey(key)
-//                    .build()
-//                    .parseClaimsJws(token);
-//        } catch (JwtException e) {
-//            throw new AuthorizationServiceException("Invalid token!", e);
-//        }
-//
-//        Claims body = claimsJws.getBody();
-//
-//        String subject = body.getSubject();
-//        if (subject == null || subject.isBlank()) {
-//            throw new AuthorizationServiceException("Empty token subject !");
-//        }
-//
-//        if (!userRepository.existsByEmail(subject)) {
-//            throw new AuthorizationServiceException("Username not found !");
-//        }
-//
-//        return Optional.ofNullable(userRepository.findFirstByEmail(subject));
-        return null;
+    public Optional<User> validateAndReturnUsername(String token){
+
+        JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+
+        Claims body = jwtParser.parseClaimsJws(token).getBody();
+
+        if(Objects.isNull(body.getSubject())){
+            throw new AuthorizationServiceException("Empty token subject!");
+        }
+
+        String email = body.getSubject();
+
+        if(Strings.isBlank(email)){
+            throw new AuthorizationServiceException("Empty token subject!");
+        }
+
+        if(!userRepository.existsByEmail(email)){
+            throw new AuthorizationServiceException("User email not found!");
+        }
+
+        return Optional.ofNullable(userRepository.findByEmail(email));
+
     }
 }
