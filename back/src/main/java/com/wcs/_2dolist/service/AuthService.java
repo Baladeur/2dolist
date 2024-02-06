@@ -1,52 +1,61 @@
 package com.wcs._2dolist.service;
 
-import com.wcs._2dolist.dto.LoginRequestDTO;
-import com.wcs._2dolist.dto.RegistrationRequestDTO;
+import com.wcs._2dolist.dto.AuthenticateDTO;
 import com.wcs._2dolist.dto.TokenResponseDTO;
-import com.wcs._2dolist.dto.UserDTO;
+import com.wcs._2dolist.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthService {
 
-//    private final UserService userService;
-//    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-//    public AuthService(AuthenticationManager authenticationManager,
     public AuthService(
-                       JwtTokenProvider jwtTokenProvider
-//                       UserService userService
-                       ) {
-//                       PasswordEncoder passwordEncoder) {
-//        this.authenticationManager = authenticationManager;
-        //    private final AuthenticationManager authenticationManager;
-        //        this.userService = userService;
-//        this.passwordEncoder = passwordEncoder;
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
-    public TokenResponseDTO login(LoginRequestDTO loginRequest) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String token = jwtTokenProvider.generateToken(userDetails);
-//        return new TokenResponseDTO(token);
-        return null;
-    }
 
-//    public void register(RegistrationRequestDTO registrationRequest) {
-//        String encodedPassword = passwordEncoder.encode(registrationRequest.getPassword());
-//        LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
-//        loginRequestDTO.setEmail(registrationRequest.getUsername());
-//        loginRequestDTO.setPassword(encodedPassword);
-//        userService.createUser(loginRequestDTO);
-//    }
+    public TokenResponseDTO login(AuthenticateDTO loginRequest) {
+        if(Objects.isNull(loginRequest.getEmail()) || Objects.isNull(loginRequest.getPassword())){
+            throw new UsernameNotFoundException("Invalid user");
+        }
+
+        if(!userRepository.existsByEmail(loginRequest.getEmail())){
+            System.out.println("User not found with email: " + loginRequest.getEmail());
+            throw new UsernameNotFoundException("User not found with email: " + loginRequest.getEmail());
+        }
+
+        String token = jwtService.generateToken(loginRequest.getEmail());
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        passwordEncoder.encode(loginRequest.getPassword())
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new TokenResponseDTO(token);
+    }
 
 }
