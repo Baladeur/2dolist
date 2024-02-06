@@ -22,7 +22,8 @@ public class RegistrationController {
         try {
             registrationService.initiateRegistration(registrationRequest);
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body("Email address already exists");
+            return ResponseEntity.badRequest().body("Email address already exists or blocked, " +
+                "or registration link has been requested in the last 3 hours");
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

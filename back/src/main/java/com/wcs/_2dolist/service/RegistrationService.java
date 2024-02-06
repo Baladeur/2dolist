@@ -34,22 +34,43 @@ public class RegistrationService {
 
     public void initiateRegistration(RegistrationRequestDTO registrationRequest) throws IllegalStateException {
         String email = registrationRequest.getEmail();
+        User existingUser = userRepository.findByEmail(email);
 
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalStateException("Email address already exists");
+        if (existingUser != null) {
+
+            // if user is active or blocked or if user has requested registration link in the last 3 hours
+            if (
+                existingUser.getStatus() == UserStatus.ACTIVE ||
+                existingUser.getStatus() == UserStatus.BLOCKED || (
+                    (existingUser.getStatus() == UserStatus.REGISTRATION_LINK_SENT ||
+                    existingUser.getStatus() == UserStatus.REGISTRATION_LINK_CHECKED) &&
+                existingUser.getDateRequestRegistrationToken().getTime() > System.currentTimeMillis() - (3 * 60 * 60 * 1000))
+            ) {
+                throw new IllegalStateException("Email address already exists or blocked," +
+                        "or registration link has been requested in the last 3 hours");
+            }
+
+            String registrationToken = hashingService.generateRegistrationToken(email);
+
+            existingUser.setRegistrationToken(hashingService.generateRegistrationToken(email));
+            existingUser.setDateRequestRegistrationToken(new Date());
+            existingUser.setStatus(UserStatus.REGISTRATION_LINK_SENT);
+            userRepository.save(existingUser);
+
+            emailService.sendRegistrationEmail(email, registrationToken, registrationRequest.getFrontUrl());
+        } else {
+            String registrationToken = hashingService.generateRegistrationToken(email);
+
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setRegistrationToken(registrationToken);
+            newUser.setDateRequestRegistrationToken(new Date());
+            newUser.setStatus(UserStatus.REGISTRATION_LINK_SENT);
+
+            userRepository.save(newUser);
+
+            emailService.sendRegistrationEmail(email, registrationToken, registrationRequest.getFrontUrl());
         }
-
-        String registrationHash = hashingService.generateRegistrationToken(email);
-
-        User user = new User();
-        user.setEmail(email);
-        user.setRegistrationToken(registrationHash);
-        user.setDateRequestRegistrationToken(new Date());
-        user.setStatus(UserStatus.REGISTRATION_LINK_SENT);
-
-        userRepository.save(user);
-
-        emailService.sendRegistrationEmail(email, registrationHash, registrationRequest.getFrontUrl());
     }
 
     public boolean verifyRegistrationToken(String token) {
