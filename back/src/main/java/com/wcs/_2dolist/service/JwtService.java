@@ -35,7 +35,7 @@ public class JwtService {
 
     public String generateToken(String userEmail) {
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        System.out.println(userEmail);
+
         return Jwts.builder()
                 .setSubject(userEmail)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -86,8 +86,9 @@ public class JwtService {
     }
 
     public Optional<User> validateAndReturnUsername(String token){
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
-        JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+        JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
 
         Claims body = jwtParser.parseClaimsJws(token).getBody();
 

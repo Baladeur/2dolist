@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/authentication")
 public class AuthController {
 
     private final AuthService authService;
@@ -19,11 +19,9 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("")
     public ResponseEntity<TokenResponseDTO> login(@RequestBody AuthenticateDTO loginRequest) {
-        System.out.println("loginRequest = " + loginRequest.getEmail() + " " + loginRequest.getPassword());
-        TokenResponseDTO tokenResponse = authService.login(loginRequest);
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(authService.authentication(loginRequest));
     }
 
 }

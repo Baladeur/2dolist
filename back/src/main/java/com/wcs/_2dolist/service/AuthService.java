@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Service
@@ -34,26 +35,26 @@ public class AuthService {
     }
 
 
-    public TokenResponseDTO login(AuthenticateDTO loginRequest) {
+    public TokenResponseDTO authentication(AuthenticateDTO loginRequest) {
         if(Objects.isNull(loginRequest.getEmail()) || Objects.isNull(loginRequest.getPassword())){
             throw new UsernameNotFoundException("Invalid user");
         }
 
         if(!userRepository.existsByEmail(loginRequest.getEmail())){
-            System.out.println("User not found with email: " + loginRequest.getEmail());
             throw new UsernameNotFoundException("User not found with email: " + loginRequest.getEmail());
         }
 
         String token = jwtService.generateToken(loginRequest.getEmail());
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        passwordEncoder.encode(loginRequest.getPassword())
-                )
-        );
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getEmail(),
+//                        passwordEncoder.encode(loginRequest.getPassword()),
+//                        new ArrayList<>()
+//                )
+//        );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return new TokenResponseDTO(token);
     }
