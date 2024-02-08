@@ -1,6 +1,8 @@
 package com.wcs._2dolist.dto;
 
 
+import java.util.Date;
+
 public class UserDTO {
     private String email;
     private String firstName;
@@ -10,8 +12,35 @@ public class UserDTO {
     private String address;
     private String status;
     private boolean emailVerified;
-    private String lastUpdated;
+    private Date lastUpdatedDate;
     private String role;
+
+    public UserDTO() {
+    }
+
+    public UserDTO(
+            String email,
+            String firstName,
+            String lastName,
+            String nickName,
+            String picture,
+            String address,
+            String status,
+            boolean emailVerified,
+            Date lastUpdatedDate,
+            String role
+    ) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+        this.picture = picture;
+        this.address = address;
+        this.status = status;
+        this.emailVerified = emailVerified;
+        this.lastUpdatedDate = lastUpdatedDate;
+        this.role = role;
+    }
 
     public String getEmail() {
         return email;
@@ -77,12 +106,12 @@ public class UserDTO {
         this.emailVerified = emailVerified;
     }
 
-    public String getLastUpdated() {
-        return lastUpdated;
+    public Date getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLastUpdatedDate(Date lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public String getRole() {

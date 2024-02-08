@@ -1,7 +1,6 @@
 package com.wcs._2dolist.controller;
 
 import com.wcs._2dolist.dto.UserDTO;
-import com.wcs._2dolist.entity.User;
 import com.wcs._2dolist.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +44,9 @@ public class UserController {
     //        "emailVerified": true,
     //        "lastUpdated": "2024-01-29T08:45:00Z",
     //        "role": "ADMIN",
-    //        "passwordHash": "your_password_hash",
-    //        "registrationUrlHash": "your_registration_url_hash",
-    //        "dateRequestRegistrationUrlHash": "2024-01-29"
+    //        "password": "your_password_hash",
+    //        "registrationToken": "your_registration_url_hash",
+    //        "dateRequestRegistrationToken": "2024-01-29"
     //}
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
