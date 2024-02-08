@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 @Service
@@ -35,26 +34,28 @@ public class AuthService {
     }
 
 
-    public TokenResponseDTO authentication(AuthenticateDTO loginRequest) {
-        if(Objects.isNull(loginRequest.getEmail()) || Objects.isNull(loginRequest.getPassword())){
+    public TokenResponseDTO authentication(AuthenticateDTO loginRequest) throws UsernameNotFoundException{
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        if(Objects.isNull(email) || Objects.isNull(password)){
             throw new UsernameNotFoundException("Invalid user");
         }
 
-        if(!userRepository.existsByEmail(loginRequest.getEmail())){
-            throw new UsernameNotFoundException("User not found with email: " + loginRequest.getEmail());
+        if(userRepository.existsByEmail(email)){
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
-        String token = jwtService.generateToken(loginRequest.getEmail());
+        String token = jwtService.generateToken(email);
 
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getEmail(),
-//                        passwordEncoder.encode(loginRequest.getPassword()),
-//                        new ArrayList<>()
-//                )
-//        );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        email,
+                        passwordEncoder.encode(password)
+                )
+        );
 
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return new TokenResponseDTO(token);
     }

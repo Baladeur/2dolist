@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -92,18 +91,14 @@ public class JwtService {
 
         Claims body = jwtParser.parseClaimsJws(token).getBody();
 
-        if(Objects.isNull(body.getSubject())){
-            throw new AuthorizationServiceException("Empty token subject!");
-        }
-
         String email = body.getSubject();
 
         if(Strings.isBlank(email)){
             throw new AuthorizationServiceException("Empty token subject!");
         }
 
-        if(!userRepository.existsByEmail(email)){
-            throw new AuthorizationServiceException("User email not found!");
+        if(userRepository.existsByEmail(email)){
+            throw new AuthorizationServiceException("User not found!");
         }
 
         return Optional.ofNullable(userRepository.findByEmail(email));

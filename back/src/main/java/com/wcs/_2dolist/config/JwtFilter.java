@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -31,7 +30,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //TODO: find better way to check if the request is for registration or authentication
-        System.out.println(request.getRequestURI());
         if(
                 request.getRequestURI().startsWith("/registration") ||
                 request.getRequestURI().startsWith("/authentication")
