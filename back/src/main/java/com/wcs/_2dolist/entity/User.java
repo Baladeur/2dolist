@@ -1,7 +1,7 @@
 package com.wcs._2dolist.entity;
 
 
-import com.wcs._2dolist.enums.AccountStatus;
+import com.wcs._2dolist.enums.UserStatus;
 import com.wcs._2dolist.enums.UserRole;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -31,7 +31,7 @@ public class User {
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
-    private AccountStatus accountStatus = AccountStatus.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
 
     private boolean emailVerified = false;
 
@@ -77,7 +77,7 @@ public class User {
             String lastName,
             String picture,
             String address,
-            AccountStatus accountStatus,
+            UserStatus status,
             boolean emailVerified,
             String lastUpdated,
             UserRole role,
@@ -92,7 +92,7 @@ public class User {
         this.lastName = lastName;
         this.picture = picture;
         this.address = address;
-        this.accountStatus = accountStatus;
+        this.status = status;
         this.emailVerified = emailVerified;
         this.lastUpdated = lastUpdated;
         this.role = role;
@@ -157,12 +157,12 @@ public class User {
         this.address = address;
     }
 
-    public AccountStatus getAccountStatus() {
-        return accountStatus;
+    public UserStatus getStatus() {
+        return status;
     }
 
-    public void setAccountStatus(AccountStatus accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public boolean isEmailVerified() {
