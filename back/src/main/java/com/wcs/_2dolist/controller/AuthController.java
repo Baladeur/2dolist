@@ -1,7 +1,8 @@
 package com.wcs._2dolist.controller;
 
+import com.wcs._2dolist.dto.AccessTokenResponseDTO;
 import com.wcs._2dolist.dto.AuthenticateDTO;
-import com.wcs._2dolist.dto.TokenResponseDTO;
+import com.wcs._2dolist.dto.TokensRequestDTO;
 import com.wcs._2dolist.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,27 @@ public class AuthController {
     }
 
     @PostMapping("")
-    public ResponseEntity<TokenResponseDTO> login(@RequestBody AuthenticateDTO loginRequest) {
+    public ResponseEntity<TokensRequestDTO> login(@RequestBody AuthenticateDTO loginRequest) {
         try {
             return ResponseEntity.ok(authService.authentication(loginRequest));
         } catch (UsernameNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponseDTO(ex.getMessage()));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new TokensRequestDTO(ex.getMessage(), false));
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new TokenResponseDTO("Internal server error occurred: " + ex.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new TokensRequestDTO("Internal server error occurred: " + ex.getMessage(), false));
         }
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AccessTokenResponseDTO> refreshAccessToken(@RequestBody AccessTokenResponseDTO request) {
+        try {
+            return ResponseEntity.ok(authService.refreshAccessToken(request.getAccessToken()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new AccessTokenResponseDTO("Internal server error occurred: " + ex.getMessage(), false));
+        }
+    }
+
 
 }

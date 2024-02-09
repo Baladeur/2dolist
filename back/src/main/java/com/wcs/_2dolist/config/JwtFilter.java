@@ -40,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = jwtService.retrieveToken(request);
 
-        User user = jwtService.validateAndReturnUsername(token)
+        User user = jwtService.validateAndReturnUser(token)
                 .orElseThrow(() -> new AuthorizationServiceException("User not found !"));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
