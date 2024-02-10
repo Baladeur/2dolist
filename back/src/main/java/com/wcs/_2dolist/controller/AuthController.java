@@ -36,9 +36,9 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<AccessTokenResponseDTO> refreshAccessToken(@RequestBody AccessTokenResponseDTO request) {
+    public ResponseEntity<AccessTokenResponseDTO> refreshAccessToken(@RequestBody TokensRequestDTO request) {
         try {
-            return ResponseEntity.ok(authService.refreshAccessToken(request.getAccessToken()));
+            return ResponseEntity.ok(authService.refreshAccessToken(request));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new AccessTokenResponseDTO("Internal server error occurred: " + ex.getMessage(), false));

@@ -43,9 +43,6 @@ public class AuthService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
-        String accessToken = jwtService.generateAccessToken(email);
-        String refreshToken = jwtService.generateRefreshToken(email);
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         email,
@@ -55,12 +52,11 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new TokensRequestDTO(accessToken, refreshToken);
+        return jwtService.generateTokens(email);
     }
 
-    public AccessTokenResponseDTO refreshAccessToken(String refreshToken) {
-        String accessToken = jwtService.validateAndGenerateAccessToken(refreshToken);
-        return new AccessTokenResponseDTO(accessToken);
+    public AccessTokenResponseDTO refreshAccessToken(TokensRequestDTO request) {
+        return jwtService.refreshAccessToken(request);
     }
 
 }

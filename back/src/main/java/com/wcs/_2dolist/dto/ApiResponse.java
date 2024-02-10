@@ -2,7 +2,7 @@ package com.wcs._2dolist.dto;
 
 abstract class ApiResponse {
     private String message;
-    private boolean success;
+    private boolean success = true;
 
     public ApiResponse() {
     }

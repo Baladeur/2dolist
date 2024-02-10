@@ -4,6 +4,7 @@ public class TokensRequestDTO extends ApiResponse {
 
     private String accessToken;
     private String refreshToken;
+    private String email;
 
     public TokensRequestDTO() {
     }
@@ -12,9 +13,10 @@ public class TokensRequestDTO extends ApiResponse {
         super(message, success);
     }
 
-    public TokensRequestDTO(String accessToken, String refreshToken) {
+    public TokensRequestDTO(String accessToken, String refreshToken, String email) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.email = email;
     }
 
     public String getAccessToken() {
@@ -31,6 +33,14 @@ public class TokensRequestDTO extends ApiResponse {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 
