@@ -1,7 +1,7 @@
 package com.wcs._2dolist.enums;
 
 public enum UserRole {
-    USER,
-    ADMIN,
-    SUPER_ADMIN
+    ROLE_USER,
+    ROLE_ADMIN,
+    ROLE_SUPER_USER
 }

@@ -7,6 +7,7 @@ import com.wcs._2dolist.enums.UserRole;
 import com.wcs._2dolist.enums.UserStatus;
 import com.wcs._2dolist.repository.UserRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class RegistrationService {
     private final EmailService emailService;
     private final HashingService hashingService;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${registration-token.lifetime-millis}")
+    private long registrationTokenLifetimeMillis;
+
     public RegistrationService(
             UserRepository userRepository,
             EmailService emailService,
@@ -44,7 +49,8 @@ public class RegistrationService {
                 existingUser.getStatus() == UserStatus.BLOCKED || (
                     (existingUser.getStatus() == UserStatus.REGISTRATION_LINK_SENT ||
                     existingUser.getStatus() == UserStatus.REGISTRATION_LINK_CHECKED) &&
-                existingUser.getDateRequestRegistrationToken().getTime() > System.currentTimeMillis() - (3 * 60 * 60 * 1000))
+                existingUser.getDateRequestRegistrationToken()
+                        .getTime() > System.currentTimeMillis() - registrationTokenLifetimeMillis)
             ) {
                 throw new IllegalStateException("Email address already exists or blocked," +
                         "or registration link has been requested in the last 3 hours");
@@ -79,7 +85,7 @@ public class RegistrationService {
             return false;
         }
 
-        long threeHoursAgoMillis = System.currentTimeMillis() - (3 * 60 * 60 * 1000);
+        long threeHoursAgoMillis = System.currentTimeMillis() - registrationTokenLifetimeMillis;
 
         if (user.getDateRequestRegistrationToken().getTime() < threeHoursAgoMillis) {
             return false;
@@ -104,7 +110,7 @@ public class RegistrationService {
             throw new IllegalArgumentException("Invalid registration token or email");
         }
 
-        long threeHoursAgoMillis = System.currentTimeMillis() - (3 * 60 * 60 * 1000);
+        long threeHoursAgoMillis = System.currentTimeMillis() - registrationTokenLifetimeMillis;
 
         if (user.getDateRequestRegistrationToken().getTime() < threeHoursAgoMillis) {
             throw new IllegalStateException("Registration token has expired");
@@ -115,7 +121,7 @@ public class RegistrationService {
         user.setPassword(passwordEncoder.encode(password));
         user.setStatus(UserStatus.ACTIVE);
         user.setEmailVerified(true);
-        user.setRole(UserRole.ADMIN);
+        user.setRole(UserRole.ROLE_ADMIN);
         user.setRegistrationToken(null);
         user.setDateRegistrationCompleted(new Date());
         user.setLastUpdatedDate(new Date());
