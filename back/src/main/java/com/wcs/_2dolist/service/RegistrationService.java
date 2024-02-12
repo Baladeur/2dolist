@@ -121,7 +121,7 @@ public class RegistrationService {
         user.setPassword(passwordEncoder.encode(password));
         user.setStatus(UserStatus.ACTIVE);
         user.setEmailVerified(true);
-        user.setRole(UserRole.ROLE_ADMIN);
+        user.setRole(UserRole.ADMIN);
         user.setRegistrationToken(null);
         user.setDateRegistrationCompleted(new Date());
         user.setLastUpdatedDate(new Date());
