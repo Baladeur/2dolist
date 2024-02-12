@@ -15,7 +15,7 @@ public class EmailService {
     private String apiKey;
     @Value("${sendgrid.email.from}")
     private String emailFrom;
-    @Value("${registration-email.front-domain}")
+    @Value("${registration-email.frontDomain}")
     private String domainName;
 
 
