@@ -24,10 +24,10 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.registration-token-lifetime-millis}")
+    @Value("${jwt.accessTokenLifetimeMillis}")
     private long accessTokenExpiration;
 
-    @Value("${jwt.refresh-token-lifetime-millis}")
+    @Value("${jwt.refreshTokenLifetimeMillis}")
     private long refreshTokenExpiration;
 
     private final UserRepository userRepository;
