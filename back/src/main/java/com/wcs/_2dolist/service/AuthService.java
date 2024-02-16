@@ -1,52 +1,59 @@
 package com.wcs._2dolist.service;
 
-import com.wcs._2dolist.dto.LoginRequestDTO;
-import com.wcs._2dolist.dto.RegistrationRequestDTO;
+import com.wcs._2dolist.dto.AuthenticateDTO;
 import com.wcs._2dolist.dto.TokenResponseDTO;
-import com.wcs._2dolist.dto.UserDTO;
+import com.wcs._2dolist.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthService {
 
-//    private final UserService userService;
-//    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-//    public AuthService(AuthenticationManager authenticationManager,
     public AuthService(
-                       JwtTokenProvider jwtTokenProvider
-//                       UserService userService
-                       ) {
-//                       PasswordEncoder passwordEncoder) {
-//        this.authenticationManager = authenticationManager;
-        //    private final AuthenticationManager authenticationManager;
-        //        this.userService = userService;
-//        this.passwordEncoder = passwordEncoder;
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            JwtService jwtService
+    ) {
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
-    public TokenResponseDTO login(LoginRequestDTO loginRequest) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String token = jwtTokenProvider.generateToken(userDetails);
-//        return new TokenResponseDTO(token);
-        return null;
-    }
 
-//    public void register(RegistrationRequestDTO registrationRequest) {
-//        String encodedPassword = passwordEncoder.encode(registrationRequest.getPassword());
-//        LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
-//        loginRequestDTO.setEmail(registrationRequest.getUsername());
-//        loginRequestDTO.setPassword(encodedPassword);
-//        userService.createUser(loginRequestDTO);
-//    }
+    public TokenResponseDTO authentication(AuthenticateDTO loginRequest) throws UsernameNotFoundException{
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        if(Objects.isNull(email) || Objects.isNull(password)){
+            throw new UsernameNotFoundException("Invalid user");
+        }
+
+        if(!userRepository.existsByEmail(email)){
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+
+        String token = jwtService.generateToken(email);
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        email,
+                        password
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new TokenResponseDTO(token);
+    }
 
 }

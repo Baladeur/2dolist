@@ -1,9 +1,17 @@
 package com.wcs._2dolist.dto;
 
-public class LoginRequestDTO {
+public class AuthenticateDTO {
 
     private String email;
     private String password;
+
+    public AuthenticateDTO() {
+    }
+
+    public AuthenticateDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getEmail() {
         return email;
