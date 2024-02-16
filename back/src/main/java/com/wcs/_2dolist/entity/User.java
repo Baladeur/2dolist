@@ -49,6 +49,10 @@ public class User {
 
     private Date dateRequestRegistrationToken;
 
+    private String refreshToken;
+
+    private String accessToken;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PrivacySetting privacySetting;
 
@@ -92,7 +96,9 @@ public class User {
             Set<Task> tasks,
             Set<Comment> comments,
             Set<Notification> notifications,
-            Date dateRegistrationCompleted
+            Date dateRegistrationCompleted,
+            String refreshToken,
+            String accessToken
     ) {
         this.id = id;
         this.email = email;
@@ -114,6 +120,8 @@ public class User {
         this.comments = comments;
         this.notifications = notifications;
         this.dateRegistrationCompleted = dateRegistrationCompleted;
+        this.refreshToken = refreshToken;
+        this.accessToken = accessToken;
     }
 
     public Long getId() {
@@ -274,5 +282,21 @@ public class User {
 
     public void setDateRegistrationCompleted(Date dateRegistrationCompleted) {
         this.dateRegistrationCompleted = dateRegistrationCompleted;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

@@ -28,7 +28,8 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         //TODO: find better way to check if the request is for registration or authentication
         if(
                 request.getRequestURI().startsWith("/registration") ||
@@ -38,9 +39,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = jwtService.retrieveToken(request);
+        String accessToken = jwtService.retrieveToken(request);
 
-        User user = jwtService.validateAndReturnUsername(token)
+        User user = jwtService.validateAccessTokenAndReturnUser(accessToken)
                 .orElseThrow(() -> new AuthorizationServiceException("User not found !"));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

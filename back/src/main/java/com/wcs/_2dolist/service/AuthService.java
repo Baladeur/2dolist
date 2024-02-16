@@ -1,7 +1,8 @@
 package com.wcs._2dolist.service;
 
+import com.wcs._2dolist.dto.AccessTokenResponseDTO;
 import com.wcs._2dolist.dto.AuthenticateDTO;
-import com.wcs._2dolist.dto.TokenResponseDTO;
+import com.wcs._2dolist.dto.TokensRequestDTO;
 import com.wcs._2dolist.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +31,7 @@ public class AuthService {
     }
 
 
-    public TokenResponseDTO authentication(AuthenticateDTO loginRequest) throws UsernameNotFoundException{
+    public TokensRequestDTO authentication(AuthenticateDTO loginRequest) throws UsernameNotFoundException{
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -42,8 +43,6 @@ public class AuthService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
-        String token = jwtService.generateToken(email);
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         email,
@@ -53,7 +52,11 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new TokenResponseDTO(token);
+        return jwtService.generateTokens(email);
+    }
+
+    public AccessTokenResponseDTO refreshAccessToken(TokensRequestDTO request) {
+        return jwtService.refreshAccessToken(request);
     }
 
 }
