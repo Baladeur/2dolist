@@ -22,7 +22,7 @@ public class RegistrationService {
     private final HashingService hashingService;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${registration-token.lifetime-millis}")
+    @Value("${jwt.registrationTokenLifetimeMillis}")
     private long registrationTokenLifetimeMillis;
 
     public RegistrationService(
