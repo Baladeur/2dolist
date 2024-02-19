@@ -1,0 +1,14 @@
+<mat-sidenav-container class="side-container">
+    <mat-sidenav mode="side" opened>
+        <mat-toolbar>Workspace</mat-toolbar>
+            <div class="sidebar-scroll-container">
+                <mat-list>
+                    <mat-list-item *ngFor="let workspace of workspaces">{{workspace.name}}</mat-list-item>
+                </mat-list>
+                <button mat-fab (click)="openAddWorkspaceDialog()">+</button>
+            </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>
