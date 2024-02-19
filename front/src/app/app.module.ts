@@ -1,36 +1,63 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { LoginModalComponent } from './login-modal/login-modal.component';
+import { FooterComponent } from './footer/footer.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LoginModalComponent } from './login-modal/login-modal.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { AddWorkspaceComponent } from './add-workspace/add-workspace.component';
 import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    FooterComponent,
     NavbarComponent,
-    LoginModalComponent,
+    FooterComponent,
     SignUpModalComponent,
+    LoginModalComponent,
     UserPageComponent,
     SidebarComponent,
-    AddWorkspaceComponent,
     AddWorkspaceDialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatListModule,
+    
+    FlexLayoutModule,
+    FlexLayoutServerModule
   ],
-  providers: [],
+  providers: [
+    provideClientHydration(),
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
