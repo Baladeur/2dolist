@@ -1,0 +1,27 @@
+<div class="sign-up-form-container">
+
+    <form [formGroup]="signUpForm" class="sign-up-form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="signUpForm.get('email')?.invalid">Veuiller entrer un email valide.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput formControlName="password" type="password">
+            <mat-error *ngIf="signUpForm.get('password')?.invalid">Le mot de passe est requis (min 8 caracteres).</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Confirmer mot de passe</mat-label>
+            <input matInput formControlName="confirmPassword" type="password">
+            <mat-error *ngIf="signUpForm.errors?.['notSame'] && signUpForm.get('confirmPassword')?.touched">
+            Les mots de passes ne correspondent pas.</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!signUpForm.valid">S'inscrire</button>
+        
+    </form>
+</div>
+
