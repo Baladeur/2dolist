@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { SignUpModalComponent } from '../sign-up-modal/sign-up-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 // import { AuthService } from '../auth/auth.service';
 import { __values } from 'tslib';
+import { RegisterEmailComponent } from '../register-email/register-email.component';
+import { RegisterEmail } from '../models/dto/RegisterEmail';
 
 @Component({
   selector: 'app-navbar',
@@ -24,10 +25,10 @@ export class NavbarComponent {
     }*/
 
   openSignUpDialog(): void {
-    const dialogRef = this.dialog.open(SignUpModalComponent, {
+    const dialogRef = this.dialog.open(RegisterEmailComponent, {
       width: '450px',
       height: '450px',
-      data: {},
+      data: new RegisterEmail('', '', null),
       
     
     })

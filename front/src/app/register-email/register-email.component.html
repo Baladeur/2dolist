@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Register email</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Repeat Email</mat-label>
+        <input matInput placeholder="Repeat Email" [(ngModel)]="emailRepeat" name="emailRepeat" required>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Send</button>
+  </form>
+</mat-dialog-content>

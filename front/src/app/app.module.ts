@@ -24,6 +24,8 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
+import { RegisterEmailComponent } from './register-email/register-email.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspac
     LoginModalComponent,
     UserPageComponent,
     SidebarComponent,
-    AddWorkspaceDialogComponent
+    AddWorkspaceDialogComponent,
+    RegisterEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +53,10 @@ import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspac
     MatDialogModule,
     MatSidenavModule,
     MatListModule,
-    
+
     FlexLayoutModule,
-    FlexLayoutServerModule
+    FlexLayoutServerModule,
+    HttpClientModule,
   ],
   providers: [
     provideClientHydration(),
