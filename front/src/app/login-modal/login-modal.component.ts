@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '../services/auth.service';
+import { Authenticate } from '../models/dto/Authenticate';
 
 @Component({
   selector: 'app-login-modal',
@@ -7,8 +9,13 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./login-modal.component.scss']
 })
 export class LoginModalComponent implements OnInit {
+  email: string = '';
+  password: string = '';
 
-  constructor(public dialogRef: MatDialogRef<LoginModalComponent>) { }
+  constructor(
+    public dialogRef: MatDialogRef<LoginModalComponent>,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -18,6 +25,14 @@ export class LoginModalComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('submitted');
+    this.onNoClick();
+    this.authService.login(new Authenticate(this.email, this.password)).subscribe({
+      next: response => {
+        console.log('Login success:', response);
+      },
+      error: error => {
+        console.error('Login error:', error!.error!.message);
+      }
+    });
   }
 }

@@ -1,21 +1,21 @@
 <h2 mat-dialog-title>Connexion</h2>
 <mat-dialog-content class="login-form-content">
-    <form class="login-form">
+    <form class="login-form" (ngSubmit)="onSubmit()">
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" type="email" required>
+            <input matInput placeholder="Email" type="email" required name="email" [(ngModel)]="email">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Mot de passe</mat-label>
-            <input matInput placeholder="Mot de passe" type="password" required>
+            <input matInput placeholder="Mot de passe" type="password" required name="password" [(ngModel)]="password">
         </mat-form-field>
     
     </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button [mat-dialog-close]="true">Annuler</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Connexion</button>
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Connexion</button>
 </mat-dialog-actions>

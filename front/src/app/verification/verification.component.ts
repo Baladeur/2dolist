@@ -37,7 +37,6 @@ export class VerificationComponent implements OnInit {
         console.log(response);
         this.registrationService.setRegistrationToken(this.token);
 
-        // this.router.navigate(['/registration-form']);
         this.openRegistrationFormDialog();
       },
       error: (error) => {
