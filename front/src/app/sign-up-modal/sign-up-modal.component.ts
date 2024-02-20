@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-sign-up-modal',
   templateUrl: './sign-up-modal.component.html',
-  styleUrl: './sign-up-modal.component.scss'
+  styleUrls: ['./sign-up-modal.component.scss']
 })
 export class SignUpModalComponent implements OnInit {
   signUpForm!: FormGroup;
