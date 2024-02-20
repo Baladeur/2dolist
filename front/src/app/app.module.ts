@@ -26,6 +26,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
 import { RegisterEmailComponent } from './register-email/register-email.component';
 import { HttpClientModule } from '@angular/common/http';
+import { VerificationComponent } from './verification/verification.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     UserPageComponent,
     SidebarComponent,
     AddWorkspaceDialogComponent,
-    RegisterEmailComponent
+    RegisterEmailComponent,
+    VerificationComponent
   ],
   imports: [
     BrowserModule,

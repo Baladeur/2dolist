@@ -20,6 +20,7 @@
             Les mots de passes ne correspondent pas.</mat-error>
         </mat-form-field>
 
+        <button mat-button (click)="onCloseClick()">Annuler</button>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signUpForm.valid">S'inscrire</button>
         
     </form>
