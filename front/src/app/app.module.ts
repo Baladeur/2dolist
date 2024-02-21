@@ -10,6 +10,8 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { AddWorkspaceComponent } from './add-workspace/add-workspace.component';
+import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LoginModalComponent,
     SignUpModalComponent,
     UserPageComponent,
-    SidebarComponent
+    SidebarComponent,
+    AddWorkspaceComponent,
+    AddWorkspaceDialogComponent
   ],
   imports: [
     BrowserModule,
