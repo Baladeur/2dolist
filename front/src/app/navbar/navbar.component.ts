@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { SignUpModalComponent } from '../sign-up-modal/sign-up-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-// import { AuthService } from '../auth/auth.service';
 import { __values } from 'tslib';
+import { RegisterEmailComponent } from '../register-email/register-email.component';
+import { RegisterEmail } from '../models/dto/RegisterEmail';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,21 +16,18 @@ export class NavbarComponent {
   isLoggedIn: boolean = false;
 
   constructor(
-    public dialog: MatDialog) {}
-    
-    /*private authService: AuthService) {
-      this.authService.isloggedIn.subscribe((value) => {
+    public dialog: MatDialog,
+    private authService: AuthService) {
+      this.authService.isLoggedIn().subscribe((value) => {
         this.isLoggedIn = value;
       })
-    }*/
+    }
 
   openSignUpDialog(): void {
-    const dialogRef = this.dialog.open(SignUpModalComponent, {
+    const dialogRef = this.dialog.open(RegisterEmailComponent, {
       width: '450px',
       height: '450px',
-      data: {},
-      
-    
+      data: new RegisterEmail('', '', null),
     })
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,7 +43,12 @@ export class NavbarComponent {
     })
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
       console.log('Fenêtre de connexion fermer')
     })
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

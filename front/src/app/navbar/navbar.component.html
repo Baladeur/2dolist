@@ -2,8 +2,9 @@
     <mat-toolbar color="primary">
       <span>2DoList</span>
       <span class="spacer-btn"></span>
-      <button mat-button (click)="openSignUpDialog()" aria-label="openSignUpDialog">Sign-up</button>
-      <button mat-button (click)="openLoginDialog()">login</button>
+      <button *ngIf="!isLoggedIn" mat-button (click)="openSignUpDialog()" aria-label="openSignUpDialog">Sign-up</button>
+      <button *ngIf="!isLoggedIn"mat-button (click)="openLoginDialog()">Login</button>
+      <button *ngIf="isLoggedIn"mat-button (click)="logout()">Logout</button>
       <a *ngIf="isLoggedIn" routerLink="/user">Mon Profil</a>
     </mat-toolbar>
   </div>
