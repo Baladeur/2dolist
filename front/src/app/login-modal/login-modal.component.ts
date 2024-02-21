@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
-import { LoginModalComponent } from './login-modal.component';
+@Component({
+  selector: 'app-login-modal',
+  templateUrl: './login-modal.component.html',
+  styleUrls: ['./login-modal.component.scss']
+})
+export class LoginModalComponent implements OnInit {
 
-describe('LoginModalComponent', () => {
-  let component: LoginModalComponent;
-  let fixture: ComponentFixture<LoginModalComponent>;
+  constructor(public dialogRef: MatDialogRef<LoginModalComponent>) { }
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [LoginModalComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(LoginModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  ngOnInit(): void {
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit(): void {
+    console.log('submitted');
+  }
+}
