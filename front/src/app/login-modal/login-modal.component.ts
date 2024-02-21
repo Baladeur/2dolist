@@ -6,7 +6,7 @@ import { Authenticate } from '../models/dto/Authenticate';
 @Component({
   selector: 'app-login-modal',
   templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.scss']
+  styleUrl: './login-modal.component.scss'
 })
 export class LoginModalComponent implements OnInit {
   email: string = '';
