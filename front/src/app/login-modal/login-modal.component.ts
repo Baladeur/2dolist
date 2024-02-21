@@ -1,23 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-login-modal',
   templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.scss']
+  styleUrl: './login-modal.component.scss'
 })
-export class LoginModalComponent implements OnInit {
+export class LoginModalComponent {
 
-  constructor(public dialogRef: MatDialogRef<LoginModalComponent>) { }
-
-  ngOnInit(): void {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onSubmit(): void {
-    console.log('submitted');
-  }
 }
