@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -52,5 +52,10 @@ export class AuthService {
     document.cookie = 'refreshToken=;';
     this.isLoggedInSubject.next(false);
     this.router.navigate(['/']);
+  }
+
+  private hasToken(): boolean {
+    //TODO: check if token is valid or expired by requesting the backcend
+    return !!localStorage.getItem('accessToken');
   }
 }
