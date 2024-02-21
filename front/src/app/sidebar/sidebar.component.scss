@@ -1,0 +1,30 @@
+
+.side-container {
+    height: 100vh; 
+    width: 100%; 
+    background-color: #1976d2;
+    overflow-y: hidden;
+  }
+  
+  mat-sidenav {
+    width: 250px; 
+  }
+  
+  mat-sidenav-container {
+    background-color: #fafafa; 
+  }
+  
+  mat-toolbar {
+    background-color: #1976d2; 
+    color: white; 
+  }
+  
+  .sidebar-scroll-container {
+      max-height: 100vh;
+      overflow-y: auto;
+  }
+  
+  button {
+    margin: 10px; 
+  }
+  

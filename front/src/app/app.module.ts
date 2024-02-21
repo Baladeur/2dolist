@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UserPageComponent } from './user-page/user-page.component';
     NavbarComponent,
     LoginModalComponent,
     SignUpModalComponent,
-    UserPageComponent
+    UserPageComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
