@@ -1,0 +1,9 @@
+<div class="navbar">
+    <mat-toolbar color="primary">
+      <span>2DoList</span>
+      <span class="spacer-btn"></span>
+      <button mat-button (click)="openSignUpDialog()" aria-label="openSignUpDialog">Sign-up</button>
+      <button mat-button (click)="openLoginDialog()">login</button>
+      <a *ngIf="isLoggedIn" routerLink="/user">Mon Profil</a>
+    </mat-toolbar>
+  </div>
