@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/authentication")
@@ -39,6 +40,9 @@ public class AuthController {
     public ResponseEntity<AccessTokenResponseDTO> refreshAccessToken(@RequestBody TokensRequestDTO request) {
         try {
             return ResponseEntity.ok(authService.refreshAccessToken(request));
+        } catch (ResponseStatusException ex) {
+            return ResponseEntity.status(ex.getStatusCode())
+                    .body(new AccessTokenResponseDTO(ex.getMessage(), false));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new AccessTokenResponseDTO("Internal server error occurred: " + ex.getMessage(), false));

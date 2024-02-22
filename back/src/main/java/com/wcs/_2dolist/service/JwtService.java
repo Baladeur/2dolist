@@ -3,6 +3,8 @@ package com.wcs._2dolist.service;
 import com.wcs._2dolist.dto.AccessTokenResponseDTO;
 import com.wcs._2dolist.dto.TokensRequestDTO;
 import com.wcs._2dolist.entity.User;
+import com.wcs._2dolist.exception.InvalidAccessTokenException;
+import com.wcs._2dolist.exception.InvalidRefreshTokenException;
 import com.wcs._2dolist.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -119,56 +121,39 @@ public class JwtService {
 
     }
 
-    public AccessTokenResponseDTO refreshAccessToken(TokensRequestDTO request) {
-        try {
-            String accessToken = request.getAccessToken();
-            String refreshToken = request.getRefreshToken();
-            String userEmail = request.getEmail();
+    public AccessTokenResponseDTO refreshAccessToken(TokensRequestDTO request)
+            throws InvalidRefreshTokenException, InvalidAccessTokenException {
 
-            try {
-                if (!isValidRefreshToken(refreshToken, userEmail)) {
-                    throw new IllegalArgumentException("Invalid refresh token");
-                }
-            } catch (Exception ex) {
-                // User have to log in again to get new tokens
-                userRepository.updateRefreshAndAccessTokens(userEmail, null, null);
-                throw new IllegalArgumentException("Invalid refresh token" + ex.getMessage());
-            }
+        String accessToken = request.getAccessToken();
+        String refreshToken = request.getRefreshToken();
+        String userEmail = request.getEmail();
 
-            if (isAccessTokenExistButExpired(accessToken, userEmail)) {
-                throw new IllegalArgumentException("Access token does not exist or is not expired.");
-            }
-
-            String newAccessToken = generateToken(userEmail, accessTokenExpiration);
-            userRepository.updateAccessToken(userEmail, newAccessToken);
-
-            return new AccessTokenResponseDTO(newAccessToken);
-//        } catch (IllegalArgumentException ex) {
-//            throw new AuthorizationServiceException("Error refreshing access token: " + ex.getMessage());
-        } catch (AuthorizationServiceException ex) {
-            // Handle case where refresh token is invalid
-            throw new AuthorizationServiceException("Invalid refresh token. Please log in again.");
-        } catch (Exception ex) {
-            return new AccessTokenResponseDTO("Error refreshing access token: " + ex.getMessage(), false);
+        if (!isValidRefreshToken(refreshToken, userEmail)) {
+            userRepository.updateRefreshAndAccessTokens(userEmail, null, null);
+            throw new InvalidRefreshTokenException("Invalid refresh token");
         }
+
+        if (!isAccessTokenExist(accessToken, userEmail)) {
+            throw new InvalidAccessTokenException("Invalid access token");
+        }
+
+        String newAccessToken = generateToken(userEmail, accessTokenExpiration);
+        userRepository.updateAccessToken(userEmail, newAccessToken);
+
+        return new AccessTokenResponseDTO(newAccessToken);
     }
 
     private boolean isValidRefreshToken(String token, String userEmail) {
         return validateToken(token, userEmail);
     }
 
-    private boolean isAccessTokenExistButExpired(String accessToken, String userEmail) {
+    private boolean isAccessTokenExist(String accessToken, String userEmail) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByEmail(userEmail));
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             String storedAccessToken = user.getAccessToken();
-            if (accessToken.equals(storedAccessToken)) {
-                // Access token exists, now check if it's expired
-                String subject = extractUserEmail(accessToken);
-                Date expiration = extractExpiration(accessToken);
-                Date currentDate = new Date();
-                return subject.equals(userEmail) && expiration.after(currentDate);
-            }
+            // Access token exists
+            return accessToken.equals(storedAccessToken);
         }
         return false;
     }

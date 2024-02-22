@@ -3,13 +3,17 @@ package com.wcs._2dolist.service;
 import com.wcs._2dolist.dto.AccessTokenResponseDTO;
 import com.wcs._2dolist.dto.AuthenticateDTO;
 import com.wcs._2dolist.dto.TokensRequestDTO;
+import com.wcs._2dolist.exception.InvalidAccessTokenException;
+import com.wcs._2dolist.exception.InvalidRefreshTokenException;
 import com.wcs._2dolist.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 
@@ -56,7 +60,11 @@ public class AuthService {
     }
 
     public AccessTokenResponseDTO refreshAccessToken(TokensRequestDTO request) {
-        return jwtService.refreshAccessToken(request);
+        try {
+            return jwtService.refreshAccessToken(request);
+        } catch (InvalidRefreshTokenException | InvalidAccessTokenException ex) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ex.getMessage(), ex);
+        }
     }
 
 }
