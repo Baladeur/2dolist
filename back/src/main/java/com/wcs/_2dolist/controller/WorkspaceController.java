@@ -2,7 +2,6 @@ package com.wcs._2dolist.controller;
 
 import com.wcs._2dolist.dto.WorkspaceDTO;
 import com.wcs._2dolist.service.WorkspaceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,8 +10,11 @@ import java.util.List;
 @RequestMapping("/api/workspaces")
 public class WorkspaceController {
 
-    @Autowired
-    private WorkspaceService workspaceService;
+    private final WorkspaceService workspaceService;
+
+    public WorkspaceController(WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
+    }
 
     @GetMapping
     public List<WorkspaceDTO> getAllWorkspaces() {
@@ -25,8 +27,13 @@ public class WorkspaceController {
     }
 
     @PostMapping
-    public WorkspaceDTO createWorkspace(@RequestBody WorkspaceDTO workspaceDTO) {
-        return workspaceService.createWorkspace(workspaceDTO);
+    public WorkspaceDTO createWorkspace(
+            @RequestBody WorkspaceDTO workspaceDTO,
+            @RequestHeader("Authorization") String accessToken
+    ) {
+        accessToken = accessToken.replace("Bearer ", "");
+
+        return workspaceService.createWorkspace(workspaceDTO, accessToken);
     }
 
     @PutMapping("/{id}")

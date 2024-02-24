@@ -19,17 +19,20 @@ public class WorkspaceService {
     final private WorkspaceRepository workspaceRepository;
     final private UserWorkspaceRepository userWorkspaceRepository;
     final private UserRepository userRepository;
+    final private JwtService jwtService;
     final private ModelMapper modelMapper;
 
     public WorkspaceService(
             WorkspaceRepository workspaceRepository,
             UserWorkspaceRepository userWorkspaceRepository,
             UserRepository userRepository,
+            JwtService jwtService,
             ModelMapper modelMapper
     ) {
         this.workspaceRepository = workspaceRepository;
         this.userWorkspaceRepository = userWorkspaceRepository;
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
         this.modelMapper = modelMapper;
     }
 
@@ -46,26 +49,22 @@ public class WorkspaceService {
         return modelMapper.map(workspace, WorkspaceDTO.class);
     }
 
-    public WorkspaceDTO createWorkspace(WorkspaceDTO workspaceDTO) {
-        Workspace workspace = modelMapper.map(workspaceDTO, Workspace.class);
+    public WorkspaceDTO createWorkspace(WorkspaceDTO workspaceDTO, String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
 
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + userEmail);
+        }
+
+        Workspace workspace = modelMapper.map(workspaceDTO, Workspace.class);
         Workspace savedWorkspace = workspaceRepository.save(workspace);
 
-        // update userWorkspace table too
-        if (workspaceDTO.getUserIds() != null && !workspaceDTO.getUserIds().isEmpty()) {
-            for (Long userId : workspaceDTO.getUserIds()) {
-                User user = userRepository.findById(userId)
-                        .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-
-                UserWorkspace userWorkspace = new UserWorkspace();
-                userWorkspace.setWorkspace(savedWorkspace);
-                userWorkspace.setUser(user);
-                // TODO: Set permission level based on if user is creator or not
-                userWorkspace.setPermissionLevel(1);
-
-                userWorkspaceRepository.save(userWorkspace);
-            }
-        }
+        UserWorkspace userWorkspace = new UserWorkspace();
+        userWorkspace.setWorkspace(savedWorkspace);
+        userWorkspace.setUser(user);
+        userWorkspace.setPermissionLevel(1);
+        userWorkspaceRepository.save(userWorkspace);
 
         return modelMapper.map(savedWorkspace, WorkspaceDTO.class);
     }
