@@ -17,8 +17,12 @@ public class WorkspaceController {
     }
 
     @GetMapping
-    public List<WorkspaceDTO> getAllWorkspaces() {
-        return workspaceService.getAllWorkspaces();
+    public List<WorkspaceDTO> getAllWorkspaces(
+            @RequestHeader("Authorization") String accessToken
+    ) {
+        accessToken = accessToken.replace("Bearer ", "");
+
+        return workspaceService.getAllWorkspaces(accessToken);
     }
 
     @GetMapping("/{id}")

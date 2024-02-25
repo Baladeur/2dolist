@@ -36,12 +36,22 @@ public class WorkspaceService {
         this.modelMapper = modelMapper;
     }
 
-    public List<WorkspaceDTO> getAllWorkspaces() {
-        List<Workspace> workspaces = workspaceRepository.findAll();
-        return workspaces.stream()
+    public List<WorkspaceDTO> getAllWorkspaces(String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
+
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + userEmail);
+        }
+
+        List<Workspace> userWorkspaces = user.getWorkspaces().stream()
+                .toList();
+
+        return userWorkspaces.stream()
                 .map(workspace -> modelMapper.map(workspace, WorkspaceDTO.class))
                 .collect(Collectors.toList());
     }
+
 
     public WorkspaceDTO getWorkspaceById(Long id) {
         Workspace workspace = workspaceRepository.findById(id)
