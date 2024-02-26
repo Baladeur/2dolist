@@ -4,6 +4,8 @@ import com.wcs._2dolist.dto.WorkspaceDTO;
 import com.wcs._2dolist.entity.User;
 import com.wcs._2dolist.entity.UserWorkspace;
 import com.wcs._2dolist.entity.Workspace;
+import com.wcs._2dolist.exception.ResourceNotFoundException;
+import com.wcs._2dolist.exception.UserAccessException;
 import com.wcs._2dolist.repository.UserRepository;
 import com.wcs._2dolist.repository.UserWorkspaceRepository;
 import com.wcs._2dolist.repository.WorkspaceRepository;
@@ -41,7 +43,7 @@ public class WorkspaceService {
 
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
-            throw new RuntimeException("User not found with email: " + userEmail);
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
         }
 
         List<Workspace> userWorkspaces = user.getWorkspaces().stream()
@@ -58,14 +60,14 @@ public class WorkspaceService {
 
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
-            throw new RuntimeException("User not found with email: " + userEmail);
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
         }
 
         Workspace workspace = workspaceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + id));
 
         if (!user.getWorkspaces().contains(workspace)) {
-            throw new RuntimeException("User does not have access to view this workspace.");
+            throw new UserAccessException("User does not have access to view this workspace.");
         }
 
         return modelMapper.map(workspace, WorkspaceDTO.class);
@@ -76,7 +78,7 @@ public class WorkspaceService {
 
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
-            throw new RuntimeException("User not found with email: " + userEmail);
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
         }
 
         Workspace workspace = modelMapper.map(workspaceDTO, Workspace.class);
@@ -97,14 +99,14 @@ public class WorkspaceService {
 
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
-            throw new RuntimeException("User not found with email: " + userEmail);
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
         }
 
         Workspace workspace = workspaceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + id));
 
         if (!user.getWorkspaces().contains(workspace)) {
-            throw new RuntimeException("User does not have access to update this workspace.");
+            throw new UserAccessException("User does not have access to update this workspace.");
         }
 
         Workspace updatedWorkspace = this.updateWorkspace(id, workspaceDTO);
@@ -113,7 +115,7 @@ public class WorkspaceService {
 
     public Workspace updateWorkspace(Long id, WorkspaceDTO workspaceDTO) {
         Workspace existingWorkspace = workspaceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + id));
 
         existingWorkspace.setName(workspaceDTO.getName());
         existingWorkspace.setColor(workspaceDTO.getColor());
@@ -129,14 +131,14 @@ public class WorkspaceService {
 
         User user = userRepository.findByEmail(userEmail);
         if (user == null) {
-            throw new RuntimeException("User not found with email: " + userEmail);
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
         }
 
         Workspace workspace = workspaceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Workspace not found with id: " + id));
 
         if (!user.getWorkspaces().contains(workspace)) {
-            throw new RuntimeException("User does not have access to delete this workspace.");
+            throw new UserAccessException("User does not have access to delete this workspace.");
         }
 
         workspaceRepository.deleteById(id);
