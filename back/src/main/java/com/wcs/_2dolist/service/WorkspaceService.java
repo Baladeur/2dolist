@@ -53,9 +53,21 @@ public class WorkspaceService {
     }
 
 
-    public WorkspaceDTO getWorkspaceById(Long id) {
+    public WorkspaceDTO getWorkspaceById(Long id, String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
+
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + userEmail);
+        }
+
         Workspace workspace = workspaceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+
+        if (!user.getWorkspaces().contains(workspace)) {
+            throw new RuntimeException("User does not have access to view this workspace.");
+        }
+
         return modelMapper.map(workspace, WorkspaceDTO.class);
     }
 
@@ -80,15 +92,52 @@ public class WorkspaceService {
     }
 
 
-    public WorkspaceDTO updateWorkspace(Long id, WorkspaceDTO workspaceDTO) {
-        Workspace existingWorkspace = workspaceRepository.findById(id)
+    public WorkspaceDTO updateWorkspace(Long id, WorkspaceDTO workspaceDTO, String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
+
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + userEmail);
+        }
+
+        Workspace workspace = workspaceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
-        modelMapper.map(workspaceDTO, existingWorkspace);
-        Workspace updatedWorkspace = workspaceRepository.save(existingWorkspace);
+
+        if (!user.getWorkspaces().contains(workspace)) {
+            throw new RuntimeException("User does not have access to update this workspace.");
+        }
+
+        Workspace updatedWorkspace = this.updateWorkspace(id, workspaceDTO);
         return modelMapper.map(updatedWorkspace, WorkspaceDTO.class);
     }
 
-    public void deleteWorkspace(Long id) {
+    public Workspace updateWorkspace(Long id, WorkspaceDTO workspaceDTO) {
+        Workspace existingWorkspace = workspaceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+
+        existingWorkspace.setName(workspaceDTO.getName());
+        existingWorkspace.setColor(workspaceDTO.getColor());
+        existingWorkspace.setBackground(workspaceDTO.getBackground());
+        existingWorkspace.setDescription(workspaceDTO.getDescription());
+
+        return workspaceRepository.save(existingWorkspace);
+    }
+
+
+    public void deleteWorkspace(Long id, String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
+
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + userEmail);
+        }
+
+        Workspace workspace = workspaceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Workspace not found with id: " + id));
+
+        if (!user.getWorkspaces().contains(workspace)) {
+            throw new RuntimeException("User does not have access to delete this workspace.");
+        }
 
         workspaceRepository.deleteById(id);
     }

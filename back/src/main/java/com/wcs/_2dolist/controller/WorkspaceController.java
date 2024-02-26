@@ -26,8 +26,9 @@ public class WorkspaceController {
     }
 
     @GetMapping("/{id}")
-    public WorkspaceDTO getWorkspaceById(@PathVariable Long id) {
-        return workspaceService.getWorkspaceById(id);
+    public WorkspaceDTO getWorkspaceById(@PathVariable Long id, @RequestHeader("Authorization") String accessToken) {
+        accessToken = accessToken.replace("Bearer ", "");
+        return workspaceService.getWorkspaceById(id, accessToken);
     }
 
     @PostMapping
@@ -41,12 +42,14 @@ public class WorkspaceController {
     }
 
     @PutMapping("/{id}")
-    public WorkspaceDTO updateWorkspace(@PathVariable Long id, @RequestBody WorkspaceDTO workspaceDTO) {
-        return workspaceService.updateWorkspace(id, workspaceDTO);
+    public WorkspaceDTO updateWorkspace(@PathVariable Long id, @RequestBody WorkspaceDTO workspaceDTO, @RequestHeader("Authorization") String accessToken) {
+        accessToken = accessToken.replace("Bearer ", "");
+        return workspaceService.updateWorkspace(id, workspaceDTO, accessToken);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWorkspace(@PathVariable Long id) {
-        workspaceService.deleteWorkspace(id);
+    public void deleteWorkspace(@PathVariable Long id, @RequestHeader("Authorization") String accessToken) {
+        accessToken = accessToken.replace("Bearer ", "");
+        workspaceService.deleteWorkspace(id, accessToken);
     }
 }
