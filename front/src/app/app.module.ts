@@ -27,6 +27,15 @@ import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspac
 import { RegisterEmailComponent } from './register-email/register-email.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VerificationComponent } from './verification/verification.component';
+import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
+import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { TaskComponent } from './task/task.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
+import { EditListDialogComponent } from './edit-list-dialog/edit-list-dialog.component';
+import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
+import { EditWorkspaceDialogComponent } from './edit-workspace-dialog/edit-workspace-dialog.component';
+// import { DummyUserPageComponent } from './dummy-user-page/dummy-user-page.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +49,16 @@ import { VerificationComponent } from './verification/verification.component';
     SidebarComponent,
     AddWorkspaceDialogComponent,
     RegisterEmailComponent,
-    VerificationComponent
+    VerificationComponent,
+    AddListDialogComponent,
+    AddTaskDialogComponent,
+    TaskListComponent,
+    TaskComponent,
+    WorkspaceComponent,
+    EditListDialogComponent,
+    EditTaskDialogComponent,
+    EditWorkspaceDialogComponent
+    // DummyUserPageComponent,
   ],
   imports: [
     BrowserModule,

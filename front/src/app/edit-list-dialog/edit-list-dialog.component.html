@@ -1,27 +1,15 @@
-<h2 mat-dialog-title>Créer un workspace</h2>
+<h2 mat-dialog-title>Modifier une liste de tache</h2>
 <mat-dialog-content class="login-form-content">
     <form class="login-form" (ngSubmit)="onSubmit()">
-
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Nom</mat-label>
-            <input matInput placeholder="Hobby" type="text" required name="name" [(ngModel)]="name">
+            <input matInput type="text" required name="name" [(ngModel)]="name">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Couleur</mat-label>
-            <input matInput value="#ff00ff" type="color" required name="color" [(ngModel)]="color">
+            <input matInput type="color" required name="color" [(ngModel)]="color">
         </mat-form-field>
-
-        <fieldset>
-            <div>
-                <input type="radio" id="private" value="true" required name="isPrivate" [(ngModel)]="isPrivate" checked>
-                <label for="private">Privé</label>
-            </div>
-            <div>
-                <input type="radio" id="public" value="false" required name="isPrivate" [(ngModel)]="isPrivate">
-                <label for="public">Publique</label>
-            </div>
-        </fieldset>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Description</mat-label>
@@ -33,5 +21,5 @@
 
 <mat-dialog-actions align="end">
     <button mat-button (click)="onNoClick()">Annuler</button>
-    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Créer</button>
+    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Mettre à jour</button>
 </mat-dialog-actions>
