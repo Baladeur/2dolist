@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from '../models/workspace.model';
 import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspace-dialog.component';
+import { ApiService } from '../services/api.service';
 
 
 @Component({
@@ -11,11 +12,15 @@ import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspa
 })
 
 export class SidebarComponent {
-  workspaces: Workspace[] = [
-    {id:1, name: 'Workspace 1'}
-  ]
+  workspaces: Workspace[] = []
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.apiService.getWorkspaces().subscribe(workspaces => {
+      this.workspaces = workspaces
+    })
+  }
 
   openAddWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(AddWorkspaceDialogComponent, {

@@ -25,8 +25,9 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
 import { RegisterEmailComponent } from './register-email/register-email.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { VerificationComponent } from './verification/verification.component';
+import { AuthInterceptorService } from './services/interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,12 @@ import { VerificationComponent } from './verification/verification.component';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
