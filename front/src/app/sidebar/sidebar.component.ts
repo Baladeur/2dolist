@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from '../models/workspace.model';
 import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspace-dialog.component';
 import { EditWorkspaceDialogComponent } from '../edit-workspace-dialog/edit-workspace-dialog.component';
+import { ApiService } from '../services/api.service';
 
 
 @Component({

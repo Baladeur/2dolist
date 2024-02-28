@@ -27,6 +27,7 @@ import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspac
 import { RegisterEmailComponent } from './register-email/register-email.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { VerificationComponent } from './verification/verification.component';
+import { AuthInterceptorService } from './services/interceptors/auth-interceptor.service';
 import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
 import { TaskListComponent } from './task-list/task-list.component';

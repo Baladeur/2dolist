@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Tasklist } from '../models/task-list.model';
+import { TaskList } from '../models/task-list.model';
 import { AddListDialogComponent } from '../add-list-dialog/add-list-dialog.component';
 
 
@@ -12,7 +12,7 @@ import { AddListDialogComponent } from '../add-list-dialog/add-list-dialog.compo
 export class WorkspaceComponent {
 
   // tasklists to fill from the database, workspace id needs to be inputted
-  tasklists: Tasklist[] = [
+  tasklists: TaskList[] = [
     { id: 0, name: 'Focus', color: '#f1f1f1', description: "Stay on track", workspaceId: 1 },
     { id: 1, name: 'Groceries', color: '#d4d4d4', description: "Stock up", workspaceId: 1 },
     { id: 2, name: 'Errands', color: '#cccccc', description: "To-do list", workspaceId: 1 },
