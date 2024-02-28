@@ -25,7 +25,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddWorkspaceDialogComponent } from './add-workspace-dialog/add-workspace-dialog.component';
 import { RegisterEmailComponent } from './register-email/register-email.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { VerificationComponent } from './verification/verification.component';
 import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
 import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
@@ -80,7 +80,12 @@ import { EditWorkspaceDialogComponent } from './edit-workspace-dialog/edit-works
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

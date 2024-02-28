@@ -1,8 +1,14 @@
 export interface Task {
-    id: number;
-    name: string;
-    color: string;
-    description: string;
-    dateStart: string;
-    dateEnd: string;
-  }
+  id: number;
+  name: string;
+  shortName: string;
+  color: string;
+  priorityColor: string;
+  description: string;
+  taskListId: number;
+  ownerId: number;
+  dateLastActivity: Date;
+  start: Date;
+  end: Date;
+  closed: boolean;
+}

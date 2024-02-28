@@ -3,4 +3,5 @@ export interface Tasklist {
     name: string;
     color: string;
     description: string;
+    workspaceId: number;
   }

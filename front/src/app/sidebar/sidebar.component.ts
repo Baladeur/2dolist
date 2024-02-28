@@ -12,20 +12,15 @@ import { EditWorkspaceDialogComponent } from '../edit-workspace-dialog/edit-work
 })
 
 export class SidebarComponent {
-  workspaces: Workspace[] = [
-    { id: 0, name: 'Discovery', color: '#80BFFF', description: "Explore the unknown" },
-    { id: 1, name: 'Inspiration', color: '#FFB6C1', description: "Spark creativity" },
-    { id: 2, name: 'Gratitude', color: '#F4A460', description: "Appreciate the good" },
-    { id: 3, name: 'Growth', color: '#90EE90', description: "Develop and improve" },
-    { id: 4, name: 'Connection', color: '#FFDAB9', description: "Build relationships" },
-    { id: 5, name: 'Adventure', color: '#00CED1', description: "Embrace new experiences" },
-    { id: 6, name: 'Mindfulness', color: '#8A2BE2', description: "Be present in the moment" },
-    { id: 7, name: 'Learning', color: '#FF69B4', description: "Expand your knowledge" },
-    { id: 8, name: 'Contribution', color: '#FFD700', description: "Make a positive impact" },
-    { id: 9, name: 'Wellbeing', color: '#7CFC00', description: "Nurture your mind and body" }
-  ]
+  workspaces: Workspace[] = []
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.apiService.getWorkspaces().subscribe(workspaces => {
+      this.workspaces = workspaces
+    })
+  }
 
   openAddWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(AddWorkspaceDialogComponent, {
