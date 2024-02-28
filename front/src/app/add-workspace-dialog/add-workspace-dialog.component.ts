@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component} from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-workspace-dialog',
@@ -7,11 +7,20 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-workspace-dialog.component.scss']
 })
 export class AddWorkspaceDialogComponent {
+  name: string = '';
+  color: string = '';
+  isPrivate: boolean = true;
+  description: string = '';
+
   constructor(
-    public dialogRef: MatDialogRef<AddWorkspaceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    public dialogRef: MatDialogRef<AddWorkspaceDialogComponent>
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close()
+  }
+
+  onSubmit(): void {
+    this.onNoClick();
   }
 }

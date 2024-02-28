@@ -3,10 +3,10 @@
         <mat-toolbar>Workspace</mat-toolbar>
             <div class="sidebar-scroll-container">
                 <mat-list>
-                    <mat-list-item *ngFor="let workspace of workspaces">{{workspace.name}}</mat-list-item>
+                    <mat-list-item *ngFor="let workspace of workspaces" (click)="openEditWorkspaceDialog(workspace.id)">{{workspace.name}}</mat-list-item>
                 </mat-list>
-                <button mat-fab (click)="openAddWorkspaceDialog()">+</button>
             </div>
+        <button mat-fab (click)="openAddWorkspaceDialog()">+</button>
     </mat-sidenav>
     <mat-sidenav-content>
 

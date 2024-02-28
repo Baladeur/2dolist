@@ -1,9 +1,9 @@
-
 .side-container {
-    height: 100vh; 
+    height: calc(100vh - 128px); 
     width: 100%; 
     background-color: #1976d2;
     overflow-y: hidden;
+    text-align: center;
   }
   
   mat-sidenav {
@@ -20,7 +20,7 @@
   }
   
   .sidebar-scroll-container {
-      max-height: 100vh;
+      max-height: calc(100vh - 276px) ; 
       overflow-y: auto;
   }
   

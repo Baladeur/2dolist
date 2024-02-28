@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Modifier un workspace</h2>
+<mat-dialog-content class="login-form-content">
+    <form class="login-form" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Nom</mat-label>
+            <input matInput type="text" required name="name" [(ngModel)]="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Couleur</mat-label>
+            <input matInput type="color" required name="color" [(ngModel)]="color">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Description</mat-label>
+            <textarea matInput required name="description" [(ngModel)]="description"></textarea>
+        </mat-form-field>
+    
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Mettre à jour</button>
+</mat-dialog-actions>

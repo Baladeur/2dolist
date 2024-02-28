@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from '../models/workspace.model';
 import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspace-dialog.component';
+import { EditWorkspaceDialogComponent } from '../edit-workspace-dialog/edit-workspace-dialog.component';
 import { ApiService } from '../services/api.service';
 
 
@@ -24,11 +25,28 @@ export class SidebarComponent {
 
   openAddWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(AddWorkspaceDialogComponent, {
-      width: '250px'
+      width: '400px'
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('the dialog wwas closed');
+      console.log('the dialog was closed');
+    })
+
+  }
+
+  openEditWorkspaceDialog(workspaceId: number): void {
+    const dialogRef = this.dialog.open(EditWorkspaceDialogComponent, {
+      width: '400px',
+      data: {
+        workspaceId: workspaceId,
+        workspaceName: this.workspaces[workspaceId].name,
+        workspaceDesc: this.workspaces[workspaceId].description,
+        workspaceColor: this.workspaces[workspaceId].color
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('the dialog was closed');
     })
 
   }

@@ -1,0 +1,11 @@
+.list {
+	overflow-y: auto;
+	max-height: calc(100vh - 200px);
+	text-align: center;
+}
+
+div {
+	margin: 1px;
+	padding: 1px;
+	border: 1px black solid;
+}
