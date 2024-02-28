@@ -30,24 +30,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // Test with Postman
-    // POST http://localhost:8080/users
-    // Body > raw > JSON
-    //{
-    //    "email": "alice.smith@example.com9",
-    //        "nickName": "alice_s",
-    //        "firstName": "Alice",
-    //        "lastName": "Smith",
-    //        "picture": "https://example.com/profiles/alicesmith.jpg",
-    //        "address": "789 Oak Street, Smalltown, Canada",
-    //        "accountStatus": "ACTIVE",
-    //        "emailVerified": true,
-    //        "lastUpdated": "2024-01-29T08:45:00Z",
-    //        "role": "ADMIN",
-    //        "password": "your_password_hash",
-    //        "registrationToken": "your_registration_url_hash",
-    //        "dateRequestRegistrationToken": "2024-01-29"
-    //}
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO createdUser = userService.createUser(userDTO);

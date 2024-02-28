@@ -12,7 +12,7 @@ public class UserWorkspace {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "workspace_id")
+    @JoinColumn(name = "workspace_id", referencedColumnName = "id", nullable = false)
     private Workspace workspace;
 
     @ManyToOne

@@ -25,18 +25,13 @@ public class Workspace {
     @OneToMany(mappedBy = "workspace")
     private Set<TaskList> taskLists;
 
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserWorkspace> userWorkspaces;
+
     public Workspace() {
     }
 
-    public Workspace(
-        Long id,
-        String name,
-        String color,
-        String background,
-        String description,
-        WorkspaceVisibility visibility,
-        Set<User> users
-    ) {
+    public Workspace(Long id, String name, String color, String background, String description, WorkspaceVisibility visibility, Set<User> users, Set<TaskList> taskLists, Set<UserWorkspace> userWorkspaces) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -44,6 +39,8 @@ public class Workspace {
         this.description = description;
         this.visibility = visibility;
         this.users = users;
+        this.taskLists = taskLists;
+        this.userWorkspaces = userWorkspaces;
     }
 
     public Long getId() {
@@ -108,5 +105,13 @@ public class Workspace {
 
     public void setTaskLists(Set<TaskList> taskLists) {
         this.taskLists = taskLists;
+    }
+
+    public Set<UserWorkspace> getUserWorkspaces() {
+        return userWorkspaces;
+    }
+
+    public void setUserWorkspaces(Set<UserWorkspace> userWorkspaces) {
+        this.userWorkspaces = userWorkspaces;
     }
 }
