@@ -1,5 +1,8 @@
 import { Component} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Workspace } from '../models/workspace.model';
+import { WorkspaceVisibility } from '../models/enums/workspace-visibility.enum';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-add-workspace-dialog',
@@ -7,13 +10,20 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-workspace-dialog.component.scss']
 })
 export class AddWorkspaceDialogComponent {
-  name: string = '';
-  color: string = '';
-  isPrivate: boolean = true;
-  description: string = '';
+  workspace: Workspace = {
+    id: 0,
+    name: '',
+    color: '',
+    background: '',
+    description: '',
+    visibility: WorkspaceVisibility.PRIVATE,
+    userIds: []
+  };
+  isPrivate: string = 'true';
 
   constructor(
-    public dialogRef: MatDialogRef<AddWorkspaceDialogComponent>
+    public dialogRef: MatDialogRef<AddWorkspaceDialogComponent>,
+    private apiService: ApiService
   ) {}
 
   onNoClick(): void {
@@ -21,6 +31,9 @@ export class AddWorkspaceDialogComponent {
   }
 
   onSubmit(): void {
+    if (this.isPrivate != 'true')
+      this.workspace.visibility = WorkspaceVisibility.PUBLIC;
+    this.apiService.createWorkspace(this.workspace).subscribe();
     this.onNoClick();
   }
 }

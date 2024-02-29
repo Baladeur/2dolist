@@ -1,1 +1,7 @@
-<p (click)="openEditTaskDialog()">{{taskName}}</p>
+<table>
+	<tr>
+		<td><p (click)="openEditTaskDialog()">{{task.name}}</p></td>
+		<td><button (click)="openDeleteTaskDialog()">🗑</button></td>
+	</tr>
+</table>
+

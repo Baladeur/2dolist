@@ -36,6 +36,9 @@ import { WorkspaceComponent } from './workspace/workspace.component';
 import { EditListDialogComponent } from './edit-list-dialog/edit-list-dialog.component';
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
 import { EditWorkspaceDialogComponent } from './edit-workspace-dialog/edit-workspace-dialog.component';
+import { DeleteWorkspaceDialogComponent } from './delete-workspace-dialog/delete-workspace-dialog.component';
+import { DeleteListDialogComponent } from './delete-list-dialog/delete-list-dialog.component';
+import { DeleteTaskDialogComponent } from './delete-task-dialog/delete-task-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,10 @@ import { EditWorkspaceDialogComponent } from './edit-workspace-dialog/edit-works
     WorkspaceComponent,
     EditListDialogComponent,
     EditTaskDialogComponent,
-    EditWorkspaceDialogComponent
+    EditWorkspaceDialogComponent,
+    DeleteWorkspaceDialogComponent,
+    DeleteListDialogComponent,
+    DeleteTaskDialogComponent
   ],
   imports: [
     BrowserModule,

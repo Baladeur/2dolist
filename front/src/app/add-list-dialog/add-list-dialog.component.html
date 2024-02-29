@@ -4,17 +4,17 @@
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Nom</mat-label>
-            <input matInput placeholder="Hobby" type="text" required name="name" [(ngModel)]="name">
+            <input matInput placeholder="Hobby" type="text" required name="name" [(ngModel)]="list.name">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Couleur</mat-label>
-            <input matInput placeholder="#f5f5f5" type="color" required name="color" [(ngModel)]="color">
+            <input matInput placeholder="#f5f5f5" type="color" required name="color" [(ngModel)]="list.color">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Description</mat-label>
-            <textarea matInput placeholder="description" required name="description" [(ngModel)]="description"></textarea>
+            <textarea matInput placeholder="description" required name="description" [(ngModel)]="list.description"></textarea>
         </mat-form-field>
     
     </form>

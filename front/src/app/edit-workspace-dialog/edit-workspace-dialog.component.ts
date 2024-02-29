@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Workspace } from '../models/workspace.model';
+import { WorkspaceVisibility } from '../models/enums/workspace-visibility.enum';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-edit-workspace-dialog',
@@ -9,19 +12,24 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './edit-workspace-dialog.component.scss'
 })
 export class EditWorkspaceDialogComponent {
-  name: string = '';
-  color: string = '';
-  description: string = ''
-  id: number = 0;
+  workspace: Workspace = {
+    id: 0,
+    name: '',
+    color: '',
+    background: '',
+    description: '',
+    visibility: WorkspaceVisibility.PRIVATE,
+    userIds: []
+  };
+  isPrivate: string = 'true';
 
   constructor(
     public dialogRef: MatDialogRef<EditWorkspaceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private apiService: ApiService
   ) {
-    this.name = data.workspaceName;
-    this.color = data.workspaceColor;
-    this.description = data.workspaceDesc;
-    this.id = data.workspaceId;
+    this.workspace = data.workspace
+    this.isPrivate = this.workspace.visibility == WorkspaceVisibility.PRIVATE? 'true' : 'false'
   }
 
   onNoClick(): void {
@@ -29,6 +37,8 @@ export class EditWorkspaceDialogComponent {
   }
 
   onSubmit(): void {
+    this.workspace.visibility = this.isPrivate != 'true'? WorkspaceVisibility.PUBLIC : WorkspaceVisibility.PRIVATE ;
+    this.apiService.updateWorkspace(this.workspace.id, this.workspace).subscribe();
     this.onNoClick();
   }
 

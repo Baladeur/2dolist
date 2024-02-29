@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from '../models/workspace.model';
 import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspace-dialog.component';
 import { EditWorkspaceDialogComponent } from '../edit-workspace-dialog/edit-workspace-dialog.component';
+import { DeleteWorkspaceDialogComponent } from '../delete-workspace-dialog/delete-workspace-dialog.component';
 import { ApiService } from '../services/api.service';
 
 
@@ -14,6 +15,8 @@ import { ApiService } from '../services/api.service';
 
 export class SidebarComponent {
   workspaces: Workspace[] = []
+
+  @Output() workspaceId = new EventEmitter<number>();
 
   constructor(public dialog: MatDialog, private apiService: ApiService) {}
 
@@ -29,24 +32,38 @@ export class SidebarComponent {
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('the dialog was closed');
     })
 
   }
 
-  openEditWorkspaceDialog(workspaceId: number): void {
+  selectWorkspace(workspace: Workspace): void {
+    this.workspaceId.emit(workspace.id);
+  }
+
+  openEditWorkspaceDialog(workspace: Workspace): void {
     const dialogRef = this.dialog.open(EditWorkspaceDialogComponent, {
       width: '400px',
       data: {
-        workspaceId: workspaceId,
-        workspaceName: this.workspaces[workspaceId].name,
-        workspaceDesc: this.workspaces[workspaceId].description,
-        workspaceColor: this.workspaces[workspaceId].color
+        workspace: workspace
       }
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('the dialog was closed');
+      
+    })
+
+  }
+
+  openDeleteWorkspaceDialog(workspace: Workspace): void {
+    const dialogRef = this.dialog.open(DeleteWorkspaceDialogComponent, {
+      width: '400px',
+      data: {
+        workspaceId: workspace.id
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      
     })
 
   }

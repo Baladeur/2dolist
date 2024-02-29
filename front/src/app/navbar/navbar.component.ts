@@ -44,7 +44,7 @@ export class NavbarComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      console.log('Fenêtre de connexion fermer')
+      console.log('Fenêtre de connexion fermée')
     })
   }
 

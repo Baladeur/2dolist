@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskList } from '../models/task-list.model';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-edit-list-dialog',
@@ -9,20 +11,20 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './edit-list-dialog.component.scss'
 })
 export class EditListDialogComponent {
-  name: string = '';
-  color: string = '';
-  description: string = '';
-  id: number = 0;
-
+  list: TaskList = {
+    id: 0,
+    name: '',
+    color: '',
+    description: '',
+    workspaceId: 0
+  };
 
   constructor(
     public dialogRef: MatDialogRef<EditListDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private apiService: ApiService
   ) {
-    this.name = data.listName;
-    this.id = data.listId;
-    this.color = data.listColor;
-    this.description = data.listDesc;
+    this.list = data.list;
     }
 
   onNoClick(): void {
@@ -30,6 +32,7 @@ export class EditListDialogComponent {
   }
 
   onSubmit(): void {
+    this.apiService.updateTaskList(this.list.id, this.list).subscribe();
     this.onNoClick();
   }
 

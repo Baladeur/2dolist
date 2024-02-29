@@ -1,6 +1,7 @@
 <div  class="workspace">
+	<p>{{workspaceId}}</p>
 	<div *ngFor="let tasklist of tasklists">
-		<app-task-list [listId]=tasklist.id [listName]=tasklist.name [color]=tasklist.color [description]="tasklist.description"></app-task-list>
+		<app-task-list [list]=tasklist></app-task-list>
 	</div>
 	<div><button mat-fab (click)="openAddListDialog()">+</button></div>
 </div>

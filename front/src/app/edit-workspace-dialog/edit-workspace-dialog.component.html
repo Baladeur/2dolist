@@ -4,17 +4,28 @@
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Nom</mat-label>
-            <input matInput type="text" required name="name" [(ngModel)]="name">
+            <input matInput type="text" required name="name" [(ngModel)]="workspace.name">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Couleur</mat-label>
-            <input matInput type="color" required name="color" [(ngModel)]="color">
+            <input matInput type="color" required name="color" [(ngModel)]="workspace.color">
         </mat-form-field>
+
+        <fieldset>
+            <div>
+                <input type="radio" id="private" required value=true name="PRIVATE" [(ngModel)]="isPrivate" checked>
+                <label for="private">Privé</label>
+            </div>
+            <div>
+                <input type="radio" id="public" required value=false name="PUBLIC" [(ngModel)]="isPrivate">
+                <label for="public">Publique</label>
+            </div>
+        </fieldset>
 
         <mat-form-field appearance="fill" class="mat-form-field-block">
             <mat-label>Description</mat-label>
-            <textarea matInput required name="description" [(ngModel)]="description"></textarea>
+            <textarea matInput required name="description" [(ngModel)]="workspace.description"></textarea>
         </mat-form-field>
     
     </form>
