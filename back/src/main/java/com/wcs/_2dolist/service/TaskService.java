@@ -58,10 +58,18 @@ public class TaskService {
     }
 
     public TaskDTO updateTask(Long id, TaskDTO taskDTO, String accessToken) {
+        String userEmail = jwtService.extractUserEmail(accessToken);
+        User owner = userRepository.findByEmail(userEmail);
+        if (owner == null) {
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
+        }
+
         Task existingTask = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
 
-        verifyUserAccessToTaskList(existingTask.getTaskList().getId(), accessToken);
+        if (!existingTask.getOwner().getEmail().equals(userEmail)) {
+            throw new UserAccessException("User does not have access to update this task.");
+        }
 
         existingTask.setName(taskDTO.getName());
         existingTask.setShortName(taskDTO.getShortName());
@@ -98,14 +106,14 @@ public class TaskService {
     }
 
     public TaskDTO createTask(TaskDTO taskDTO, String accessToken) {
-        Long taskListId = taskDTO.getTaskListId();
-        verifyUserAccessToTaskList(taskListId, accessToken);
-
-        TaskList taskList = taskListRepository.findById(taskListId)
-                .orElseThrow(() -> new ResourceNotFoundException("TaskList not found with id: " + taskListId));
+        String userEmail = jwtService.extractUserEmail(accessToken);
+        User owner = userRepository.findByEmail(userEmail);
+        if (owner == null) {
+            throw new ResourceNotFoundException("User not found with email: " + userEmail);
+        }
 
         Task task = modelMapper.map(taskDTO, Task.class);
-        task.setTaskList(taskList);
+        task.setOwner(owner);
         Task savedTask = taskRepository.save(task);
         return modelMapper.map(savedTask, TaskDTO.class);
     }
