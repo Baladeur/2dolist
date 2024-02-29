@@ -32,9 +32,15 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .cors(cors -> cors.configurationSource(request -> {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOriginPatterns(List.of("*"));
+                configuration.setAllowedOriginPatterns(List.of("http://localhost:4200",
+                        "https://localhost:4200",
+                        "http://twodolist1.onrender.com",
+                        "https://twodolist1.onrender.com",
+                        "https://dolist-b76cf.web.app/",
+                        "*","**"));
                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
                 configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                configuration.setAllowCredentials(true);
                 return configuration;
             }))
             .authorizeHttpRequests(authorize -> authorize
