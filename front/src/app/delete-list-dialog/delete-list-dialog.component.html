@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Voulez vous vraiment supprimer la liste de tache?</h2>
+<mat-dialog-content class="login-form-content">
+    <form class="login-form" (ngSubmit)="onSubmit()">
+
+        <fieldset>
+            <div>
+                <input type="radio" id="delete" required value=true name="DELETE" [(ngModel)]="isDelete">
+                <label for="private">Oui</label>
+            </div>
+            <div>
+                <input type="radio" id="cancel" required value=false name="CANCEL" [(ngModel)]="isDelete" checked>
+                <label for="public">Non</label>
+            </div>
+        </fieldset>
+    
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Confirmer</button>
+</mat-dialog-actions>

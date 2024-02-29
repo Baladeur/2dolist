@@ -1,0 +1,15 @@
+.workspace {
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	height: 100%;
+	width: calc(100vw - 250px);
+	max-width: calc(100vw - 250px);;
+	overflow-x: auto;
+	flex-wrap: nowrap;
+}
+
+.workspace div {
+	margin: 10px;
+	min-width: 100px;
+}

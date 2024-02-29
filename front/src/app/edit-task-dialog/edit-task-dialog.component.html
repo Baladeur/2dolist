@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Modifier une tache</h2>
+<mat-dialog-content class="login-form-content">
+    <form class="login-form" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Nom</mat-label>
+            <input matInput placeholder="Hobby" type="text" required name="name" [(ngModel)]="task.name">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block" class="datepick">
+            <mat-label>Début</mat-label>
+            <input matInput type="date" value="2017-06-01" required name="dateStart" [(ngModel)]="dateStart">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block" class="datepick">
+            <mat-label>Fin</mat-label>
+            <input matInput type="date" required name="dateEnd" [(ngModel)]="dateEnd">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Couleur</mat-label>
+            <input matInput placeholder="#f5f5f5" type="color" required name="color" [(ngModel)]="task.color">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mat-form-field-block">
+            <mat-label>Description</mat-label>
+            <textarea matInput placeholder="description" required name="description" [(ngModel)]="task.description"></textarea>
+        </mat-form-field>
+    
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button type="submit" cdkFocusInitial (click)="onSubmit()">Mettre à jour</button>
+</mat-dialog-actions>

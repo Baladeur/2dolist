@@ -28,6 +28,17 @@ import { RegisterEmailComponent } from './register-email/register-email.componen
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { VerificationComponent } from './verification/verification.component';
 import { AuthInterceptorService } from './services/interceptors/auth-interceptor.service';
+import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
+import { AddTaskDialogComponent } from './add-task-dialog/add-task-dialog.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { TaskComponent } from './task/task.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
+import { EditListDialogComponent } from './edit-list-dialog/edit-list-dialog.component';
+import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
+import { EditWorkspaceDialogComponent } from './edit-workspace-dialog/edit-workspace-dialog.component';
+import { DeleteWorkspaceDialogComponent } from './delete-workspace-dialog/delete-workspace-dialog.component';
+import { DeleteListDialogComponent } from './delete-list-dialog/delete-list-dialog.component';
+import { DeleteTaskDialogComponent } from './delete-task-dialog/delete-task-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +52,18 @@ import { AuthInterceptorService } from './services/interceptors/auth-interceptor
     SidebarComponent,
     AddWorkspaceDialogComponent,
     RegisterEmailComponent,
-    VerificationComponent
+    VerificationComponent,
+    AddListDialogComponent,
+    AddTaskDialogComponent,
+    TaskListComponent,
+    TaskComponent,
+    WorkspaceComponent,
+    EditListDialogComponent,
+    EditTaskDialogComponent,
+    EditWorkspaceDialogComponent,
+    DeleteWorkspaceDialogComponent,
+    DeleteListDialogComponent,
+    DeleteTaskDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<div class="list">
+	<p (click)="openEditListDialog()">{{list.name}}</p>
+	<button (click)="openDeleteListDialog()">🗑</button>
+	<div *ngFor="let task of tasks">
+		<app-task [task]=task></app-task>
+	</div>
+	<div><button mat-fab (click)="openAddTaskDialog()">+</button></div>
+</div>
