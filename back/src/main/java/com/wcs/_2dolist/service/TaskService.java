@@ -67,6 +67,8 @@ public class TaskService {
         Task existingTask = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
 
+        verifyUserAccessToTaskList(existingTask.getTaskList().getId(), accessToken);
+
         if (!existingTask.getOwner().getEmail().equals(userEmail)) {
             throw new UserAccessException("User does not have access to update this task.");
         }
@@ -113,6 +115,8 @@ public class TaskService {
         }
 
         Task task = modelMapper.map(taskDTO, Task.class);
+        verifyUserAccessToTaskList(task.getTaskList().getId(), accessToken);
+
         task.setOwner(owner);
         Task savedTask = taskRepository.save(task);
         return modelMapper.map(savedTask, TaskDTO.class);
