@@ -37,7 +37,10 @@ export class EditWorkspaceDialogComponent {
   }
 
   onSubmit(): void {
-    this.workspace.visibility = this.isPrivate != 'true'? WorkspaceVisibility.PUBLIC : WorkspaceVisibility.PRIVATE ;
+    if (this.isPrivate != 'true')
+      this.workspace.visibility = WorkspaceVisibility.PUBLIC;
+    else
+      this.workspace.visibility = WorkspaceVisibility.PRIVATE;
     this.apiService.updateWorkspace(this.workspace.id, this.workspace).subscribe();
     this.onNoClick();
   }

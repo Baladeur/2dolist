@@ -25,11 +25,12 @@ export class WorkspaceComponent {
     })
   }
 
-  openAddListDialog(): void {
+  openAddListDialog(workspaceId: number): void {
+    console.log(workspaceId);
     const dialogRef = this.dialog.open(AddListDialogComponent, {
       width: '400px', 
       data: {
-        workspaceId: this.workspaceId 
+        workspaceId: workspaceId 
       }
     })
 
