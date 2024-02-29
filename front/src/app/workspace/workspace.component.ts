@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskList } from '../models/task-list.model';
 import { AddListDialogComponent } from '../add-list-dialog/add-list-dialog.component';
@@ -17,7 +18,7 @@ export class WorkspaceComponent {
   // tasklists to fill from the database, workspace id needs to be inputted
   tasklists: TaskList[] = []
 
-  constructor(public dialog: MatDialog, private apiService: ApiService) {}
+  constructor(public dialog: MatDialog, public router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.apiService.getTaskListsByWorkspaceId(this.workspaceId).subscribe(tasklists => {
@@ -36,6 +37,7 @@ export class WorkspaceComponent {
     dialogRef.afterClosed().subscribe(result => {
       
     })
+    this.router.navigate([this.router.url]);
 
   }
 

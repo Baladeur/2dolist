@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Task } from '../models/task.model';
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
@@ -27,7 +28,7 @@ export class TaskListComponent {
   tasks: Task[] = []
   
 
-  constructor(public dialog: MatDialog, private apiService: ApiService) {}
+  constructor(public dialog: MatDialog, public router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.apiService.getTasksByTaskListId(this.list.id).subscribe(tasks => {
@@ -46,6 +47,7 @@ export class TaskListComponent {
     dialogRef.afterClosed().subscribe(result => {
 
     })
+    this.router.navigate([this.router.url]);
 
   }
 
@@ -60,6 +62,7 @@ export class TaskListComponent {
     dialogRef.afterClosed().subscribe(result => {
       
     })
+    this.router.navigate([this.router.url]);
 
   }
 
@@ -74,6 +77,7 @@ export class TaskListComponent {
     dialogRef.afterClosed().subscribe(result => {
       
     })
+    this.router.navigate([this.router.url]);
 
   }
 

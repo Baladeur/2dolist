@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from '../models/workspace.model';
 import { AddWorkspaceDialogComponent } from '../add-workspace-dialog/add-workspace-dialog.component';
@@ -18,7 +19,7 @@ export class SidebarComponent {
 
   @Output() workspaceId = new EventEmitter<number>();
 
-  constructor(public dialog: MatDialog, private apiService: ApiService) {}
+  constructor(public router: Router, public dialog: MatDialog, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.apiService.getWorkspaces().subscribe(workspaces => {
@@ -33,6 +34,7 @@ export class SidebarComponent {
 
     dialogRef.afterClosed().subscribe(result => {
     })
+    this.router.navigate([this.router.url]);
 
   }
 
@@ -51,6 +53,7 @@ export class SidebarComponent {
     dialogRef.afterClosed().subscribe(result => {
       
     })
+    this.router.navigate([this.router.url]);
 
   }
 
@@ -65,6 +68,7 @@ export class SidebarComponent {
     dialogRef.afterClosed().subscribe(result => {
       
     })
+    this.router.navigate([this.router.url]);
 
   }
 }
